@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { MY_VAR } from '@env';
 import { Text } from 'react-native';
+
+import { GetPopularMovies } from './src/api/movies.api';
 
 const StyledView = styled.View`
   flex: 1;
@@ -10,9 +11,10 @@ const StyledView = styled.View`
 `;
 
 export default function App() {
+  GetPopularMovies();
   return (
     <StyledView>
-      <Text>{MY_VAR}</Text>
+      <Text>blank canvas</Text>
     </StyledView>
   );
 }
