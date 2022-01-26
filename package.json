@@ -9,6 +9,16 @@
     "web": "expo start --web",
     "eject": "expo eject"
   },
+  "importSort": {
+    ".js, .jsx, .es6, .es": {
+      "parser": "babylon",
+      "style": "renke"
+    },
+    ".ts, .tsx": {
+      "parser": "typescript",
+      "style": "renke"
+    }
+  },
   "dependencies": {
     "expo": "~44.0.0",
     "expo-status-bar": "~1.2.0",
@@ -18,7 +28,15 @@
     "react-native-web": "0.17.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "@react-native-community/eslint-config": "^3.0.1",
+    "eslint": "^7.32.0",
+    "eslint-plugin-react-native": "^4.0.0",
+    "import-sort-cli": "^6.0.0",
+    "import-sort-parser-babylon": "^6.0.0",
+    "import-sort-parser-typescript": "^6.0.0",
+    "import-sort-style-renke": "^6.0.0",
+    "prettier": "^2.5.1"
   },
   "private": true
 }
