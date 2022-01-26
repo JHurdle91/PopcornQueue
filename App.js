@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import { MY_VAR } from '@env';
 import { Text } from 'react-native';
 
 const StyledView = styled.View`
@@ -11,7 +12,7 @@ const StyledView = styled.View`
 export default function App() {
   return (
     <StyledView>
-      <Text>blank canvas</Text>
+      <Text>{MY_VAR}</Text>
     </StyledView>
   );
 }
