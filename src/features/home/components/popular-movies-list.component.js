@@ -6,10 +6,7 @@ import { GetPopularMovies } from '../../../api/movies.api';
 import { MovieCard } from './movie-card.component';
 
 const Wrapper = styled.View`
-  padding: 10px;
   border: 1px solid blue;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const PopularMoviesList = () => {
