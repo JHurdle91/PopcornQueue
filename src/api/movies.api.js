@@ -8,7 +8,7 @@ export const GetPopularMovies = async () => {
     const response = await axios.get(
       `${MOVIE}/popular?api_key=${TMDB_API_KEY}`
     );
-    console.log(response.data);
+    return response.data.results;
   } catch (err) {
     throw new Error(err);
   }
