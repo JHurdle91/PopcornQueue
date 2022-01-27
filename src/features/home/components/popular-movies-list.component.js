@@ -1,9 +1,10 @@
 import styled from 'styled-components/native';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 
 import { GetPopularMovies } from '../../../api/movies.api';
 import { MovieCard } from './movie-card.component';
+import { Text } from '../../../components/typography/text.component';
 
 const Wrapper = styled.View`
   border: 1px solid blue;
@@ -21,7 +22,7 @@ export const PopularMoviesList = () => {
 
   return (
     <Wrapper>
-      <Text>Popular Movies</Text>
+      <Text variant="heading">Popular Movies</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {popularMovies &&
           popularMovies.map((movie) => {
@@ -36,10 +37,3 @@ export const PopularMoviesList = () => {
     </Wrapper>
   );
 };
-
-/*
- *
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {popularMovies && <MovieCard movie={popularMovies[0]} />}
-      </ScrollView>
-      */
