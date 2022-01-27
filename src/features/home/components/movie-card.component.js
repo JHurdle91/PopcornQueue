@@ -5,8 +5,8 @@ import { POSTERS } from '../../../api/constants';
 
 const Card = styled.View`
   margin-right: 5px;
-  height: ${478 / 3}px;
-  width: ${318 / 3}px;
+  height: 150px;
+  width: 100px;
 `;
 
 const Thumbnail = styled.Image`

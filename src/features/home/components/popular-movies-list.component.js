@@ -6,9 +6,7 @@ import { GetPopularMovies } from '../../../api/movies.api';
 import { MovieCard } from './movie-card.component';
 import { Text } from '../../../components/typography/text.component';
 
-const Wrapper = styled.View`
-  border: 1px solid blue;
-`;
+const Wrapper = styled.View``;
 
 export const PopularMoviesList = () => {
   const [popularMovies, setPopularMovies] = useState(null);
