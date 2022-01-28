@@ -1,8 +1,11 @@
+import 'react-native-gesture-handler';
+
 import React from 'react';
 import {
   AbrilFatface_400Regular,
   useFonts as useAbril,
 } from '@expo-google-fonts/abril-fatface';
+import { NavigationContainer } from '@react-navigation/native';
 import {
   Oswald_400Regular,
   useFonts as useOswald,
@@ -17,7 +20,7 @@ import {
 } from '@expo-google-fonts/roboto';
 import { ThemeProvider } from 'styled-components/native';
 
-import { PopularMoviesList } from './src/features/home/components/popular-movies-list.component';
+import { MediaNavigator } from './src/infrastructure/navigation/media.navigator';
 import { SafeArea } from './src/components/utility/safe-area.component';
 import { theme } from './src/infrastructure/theme';
 
@@ -45,7 +48,9 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <SafeArea>
-        <PopularMoviesList />
+        <NavigationContainer>
+          <MediaNavigator />
+        </NavigationContainer>
       </SafeArea>
     </ThemeProvider>
   );

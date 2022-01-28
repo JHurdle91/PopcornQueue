@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 
 import { GetPopularMovies } from '../../../api/movies.api';
 import { MovieCard } from './movie-card.component';
@@ -9,7 +9,7 @@ import { Text } from '../../../components/typography/text.component';
 
 const Wrapper = styled.View``;
 
-export const PopularMoviesList = () => {
+export const PopularMoviesList = ({ navigation }) => {
   const [popularMovies, setPopularMovies] = useState(null);
 
   useEffect(() => {
@@ -30,7 +30,14 @@ export const PopularMoviesList = () => {
           popularMovies.map((movie) => {
             const key = `popularMovies - ${movie.id}`;
             return (
-              <TouchableOpacity key={key}>
+              <TouchableOpacity
+                key={key}
+                onPress={() =>
+                  navigation.navigate('MovieDetail', {
+                    movie,
+                  })
+                }
+              >
                 <MovieCard movie={movie} />
               </TouchableOpacity>
             );
