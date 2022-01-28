@@ -1,9 +1,10 @@
 import styled from 'styled-components/native';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 
 import { GetPopularMovies } from '../../../api/movies.api';
 import { MovieCard } from './movie-card.component';
+import { Spacer } from '../../../components/spacer/spacer.component';
 import { Text } from '../../../components/typography/text.component';
 
 const Wrapper = styled.View``;
@@ -20,8 +21,11 @@ export const PopularMoviesList = () => {
 
   return (
     <Wrapper>
-      <Text variant="heading">Popular Movies</Text>
+      <Spacer position="left" size="medium">
+        <Text variant="heading">Popular Movies</Text>
+      </Spacer>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <Spacer position="left" size="small" />
         {popularMovies &&
           popularMovies.map((movie) => {
             const key = `popularMovies - ${movie.id}`;

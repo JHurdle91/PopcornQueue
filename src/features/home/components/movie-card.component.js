@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { POSTERS } from '../../../api/constants';
 
 const Card = styled.View`
-  margin-right: 5px;
+  margin-right: ${(props) => props.theme.space[1]};
   height: 150px;
   width: 100px;
 `;
