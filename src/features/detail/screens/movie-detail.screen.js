@@ -5,18 +5,17 @@ import { ScrollView, TouchableOpacity } from 'react-native';
 import {
   BackButton,
   Backdrop,
-  Container,
   Divider,
   GenreContainer,
   Header,
   InfoContainer,
   Options,
-  ScrollSpacer,
   StatusButton,
   Title,
 } from '../components/movie-detail.styles';
 import { GetMovieDetails } from '../../../api/movies.api';
 import { POSTERS } from '../../../api/constants';
+import { ScreenContainer } from '../../../components/utility/screen-container.component';
 import { Spacer } from '../../../components/spacer/spacer.component';
 import { Text } from '../../../components/typography/text.component';
 import { theme } from '../../../infrastructure/theme';
@@ -49,7 +48,7 @@ export const MovieDetailScreen = ({ route, navigation }) => {
   };
 
   return (
-    <Container>
+    <ScreenContainer>
       <Header>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <BackButton name="md-arrow-back" size={32} color="black" />
@@ -161,8 +160,7 @@ export const MovieDetailScreen = ({ route, navigation }) => {
             <Text variant="label">Director, cast, etc</Text>
           </Spacer>
         </InfoContainer>
-        <ScrollSpacer />
       </ScrollView>
-    </Container>
+    </ScreenContainer>
   );
 };

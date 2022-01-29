@@ -48,11 +48,3 @@ export const BackButton = styled(Ionicons)`
 export const Header = styled.View`
   flex-direction: row;
 `;
-
-export const Container = styled.View`
-  background-color: white;
-`;
-
-export const ScrollSpacer = styled.View`
-  height: 50px;
-`;
