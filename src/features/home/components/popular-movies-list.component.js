@@ -28,7 +28,7 @@ export const PopularMoviesList = ({ navigation }) => {
         <Spacer position="left" size="small" />
         {popularMovies &&
           popularMovies.map((movie) => {
-            const key = `popularMovies - ${movie.id}`;
+            const key = `popularMovies-${movie.id}`;
             return (
               <TouchableOpacity
                 key={key}
