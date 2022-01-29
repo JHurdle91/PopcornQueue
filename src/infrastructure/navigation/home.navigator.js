@@ -5,7 +5,7 @@ import {
 } from '@react-navigation/stack';
 
 import { HomeScreen } from '../../features/home/screens/home.screen';
-import { MovieDetailScreen } from '../../features/detail/movie-detail-screen';
+import { MovieDetailScreen } from '../../features/detail/screens/movie-detail.screen';
 
 const HomeStack = createStackNavigator();
 

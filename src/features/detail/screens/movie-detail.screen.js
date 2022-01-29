@@ -1,50 +1,21 @@
-import styled from 'styled-components/native';
 import React, { useEffect, useState } from 'react';
-import { Dimensions, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { ScrollView } from 'react-native';
 
-import { GetMovieDetails } from '../../api/movies.api';
-import { POSTERS } from '../../api/constants';
-import { Spacer } from '../../components/spacer/spacer.component';
-import { Text } from '../../components/typography/text.component';
-import { theme } from '../../infrastructure/theme';
-
-const windowHeight = Dimensions.get('window').height;
-
-const Backdrop = styled.Image`
-  height: ${windowHeight / 3}px;
-`;
-
-const Title = styled(Text)`
-  text-align: center;
-`;
-
-const GenreWrapper = styled.View`
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-around;
-`;
-
-const Options = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-`;
-
-const StatusButton = styled.TouchableOpacity`
-  align-items: center;
-  justify-content: center;
-  width: 25%;
-`;
-
-const InfoWrapper = styled.View`
-  padding: 10px;
-`;
-
-const Divider = styled.View`
-  border: 1px solid ${(props) => props.theme.colors.brand.primary};
-`;
+import {
+  Backdrop,
+  Divider,
+  GenreContainer,
+  InfoContainer,
+  Options,
+  StatusButton,
+  Title,
+} from '../components/movie-detail.styles';
+import { GetMovieDetails } from '../../../api/movies.api';
+import { POSTERS } from '../../../api/constants';
+import { Spacer } from '../../../components/spacer/spacer.component';
+import { Text } from '../../../components/typography/text.component';
+import { theme } from '../../../infrastructure/theme';
 
 const mediaStatus = {
   queued: 1,
@@ -145,9 +116,9 @@ export const MovieDetailScreen = ({ route }) => {
           </StatusButton>
         </Options>
       </Spacer>
-      <InfoWrapper>
+      <InfoContainer>
         <Divider />
-        <GenreWrapper>
+        <GenreContainer>
           {movieDetails &&
             movieDetails.genres.map((genre) => {
               const key = `genre-${movie.id}-${genre.id}`;
@@ -157,7 +128,7 @@ export const MovieDetailScreen = ({ route }) => {
                 </Text>
               );
             })}
-        </GenreWrapper>
+        </GenreContainer>
         <Divider />
         <Spacer position="top" size="medium">
           <Text variant="label">Released: {movie.release_date}</Text>
@@ -173,7 +144,7 @@ export const MovieDetailScreen = ({ route }) => {
           <Text variant="label">[Credits go here]</Text>
           <Text variant="label">Director, cast, etc</Text>
         </Spacer>
-      </InfoWrapper>
+      </InfoContainer>
     </ScrollView>
   );
 };
