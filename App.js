@@ -20,8 +20,7 @@ import {
 } from '@expo-google-fonts/roboto';
 import { ThemeProvider } from 'styled-components/native';
 
-import { MediaNavigator } from './src/infrastructure/navigation/media.navigator';
-import { SafeArea } from './src/components/utility/safe-area.component';
+import { AppNavigator } from './src/infrastructure/navigation/app.navigator';
 import { theme } from './src/infrastructure/theme';
 
 export default function App() {
@@ -47,11 +46,9 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <SafeArea>
-        <NavigationContainer>
-          <MediaNavigator />
-        </NavigationContainer>
-      </SafeArea>
+      <NavigationContainer>
+        <AppNavigator />
+      </NavigationContainer>
     </ThemeProvider>
   );
 }

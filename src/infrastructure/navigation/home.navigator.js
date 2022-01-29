@@ -7,11 +7,11 @@ import {
 import { HomeScreen } from '../../features/home/screens/home.screen';
 import { MovieDetailScreen } from '../../features/detail/movie-detail-screen';
 
-const MediaStack = createStackNavigator();
+const HomeStack = createStackNavigator();
 
-export const MediaNavigator = () => {
+export const HomeNavigator = () => {
   return (
-    <MediaStack.Navigator
+    <HomeStack.Navigator
       screenOptions={{
         headerShown: false,
         gestureEnabled: true,
@@ -19,8 +19,8 @@ export const MediaNavigator = () => {
         ...TransitionPresets.ModalTransition,
       }}
     >
-      <MediaStack.Screen name="Home" component={HomeScreen} />
-      <MediaStack.Screen name="MovieDetail" component={MovieDetailScreen} />
-    </MediaStack.Navigator>
+      <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
+      <HomeStack.Screen name="MovieDetail" component={MovieDetailScreen} />
+    </HomeStack.Navigator>
   );
 };
