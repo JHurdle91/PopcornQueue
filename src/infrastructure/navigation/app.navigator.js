@@ -24,6 +24,8 @@ export const AppNavigator = () => {
         <Ionicons name={iconName} size={size} color={color} />
       ),
       headerShown: false,
+      tabBarShowLabel: false,
+      tabBarAccessibilityLabel: route.name,
       tabBarActiveTintColor: theme.colors.brand.primary,
       tabBarInactiveTintColor: theme.colors.ui.secondary,
       tabBarStyle: [
