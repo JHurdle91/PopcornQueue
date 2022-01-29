@@ -14,8 +14,7 @@ export const HomeNavigator = () => {
     <HomeStack.Navigator
       screenOptions={{
         headerShown: false,
-        gestureEnabled: true,
-        gestureDirection: 'vertical',
+        gestureEnabled: false,
         ...TransitionPresets.ModalTransition,
       }}
     >

@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 import { Text } from '../../../components/typography/text.component';
 
@@ -38,4 +39,20 @@ export const InfoContainer = styled.View`
 
 export const Divider = styled.View`
   border: 1px solid ${(props) => props.theme.colors.brand.primary};
+`;
+
+export const BackButton = styled(Ionicons)`
+  padding: 8px 16px 8px 16px;
+`;
+
+export const Header = styled.View`
+  flex-direction: row;
+`;
+
+export const Container = styled.View`
+  background-color: white;
+`;
+
+export const ScrollSpacer = styled.View`
+  height: 50px;
 `;

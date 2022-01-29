@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { ScrollView } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 
 import {
+  BackButton,
   Backdrop,
+  Container,
   Divider,
   GenreContainer,
+  Header,
   InfoContainer,
   Options,
+  ScrollSpacer,
   StatusButton,
   Title,
 } from '../components/movie-detail.styles';
@@ -24,7 +28,7 @@ const mediaStatus = {
   ignore: 4,
 };
 
-export const MovieDetailScreen = ({ route }) => {
+export const MovieDetailScreen = ({ route, navigation }) => {
   const { movie } = route.params;
   const [movieDetails, setMovieDetails] = useState(null);
   const [interest, setInterest] = useState(null);
@@ -45,106 +49,120 @@ export const MovieDetailScreen = ({ route }) => {
   };
 
   return (
-    <ScrollView>
-      <Backdrop
-        resizeMode="cover"
-        source={{ uri: `${POSTERS}${movie.backdrop_path}` }}
-      />
-      <Title variant="title">{movie.title}</Title>
-      {movieDetails && <Title variant="caption">{movieDetails.tagline}</Title>}
-      <Spacer position="top" size="small">
-        <Options>
-          <StatusButton onPress={() => updateStatus('queued')}>
-            <Ionicons
-              name={interest === mediaStatus.queued ? 'md-checkmark' : 'md-add'}
-              size={48}
-              color={
-                interest === mediaStatus.queued
-                  ? theme.colors.brand.primary
-                  : theme.colors.ui.secondary
-              }
-            />
-            <Text variant="caption">My Queue</Text>
-          </StatusButton>
-          <StatusButton onPress={() => updateStatus('good')}>
-            <Ionicons
-              name={
-                interest === mediaStatus.good
-                  ? 'md-thumbs-up'
-                  : 'md-thumbs-up-outline'
-              }
-              size={48}
-              color={
-                interest === mediaStatus.good
-                  ? theme.colors.brand.primary
-                  : theme.colors.ui.secondary
-              }
-            />
-            <Text variant="caption">Like</Text>
-          </StatusButton>
-          <StatusButton onPress={() => updateStatus('bad')}>
-            <Ionicons
-              name={
-                interest === mediaStatus.bad
-                  ? 'md-thumbs-down'
-                  : 'md-thumbs-down-outline'
-              }
-              size={48}
-              color={
-                interest === mediaStatus.bad
-                  ? theme.colors.brand.primary
-                  : theme.colors.ui.secondary
-              }
-            />
-            <Text variant="caption">Dislike</Text>
-          </StatusButton>
-          <StatusButton onPress={() => updateStatus('ignore')}>
-            <Ionicons
-              name={
-                interest === mediaStatus.ignore
-                  ? 'md-remove-circle'
-                  : 'md-remove-circle-outline'
-              }
-              size={48}
-              color={
-                interest === mediaStatus.ignore
-                  ? theme.colors.ui.error
-                  : theme.colors.ui.secondary
-              }
-            />
-            <Text variant="caption">Not Interested</Text>
-          </StatusButton>
-        </Options>
-      </Spacer>
-      <InfoContainer>
-        <Divider />
-        <GenreContainer>
-          {movieDetails &&
-            movieDetails.genres.map((genre) => {
-              const key = `genre-${movie.id}-${genre.id}`;
-              return (
-                <Text key={key} variant="heading">
-                  {genre.name}
-                </Text>
-              );
-            })}
-        </GenreContainer>
-        <Divider />
-        <Spacer position="top" size="medium">
-          <Text variant="label">Released: {movie.release_date}</Text>
-          {movieDetails && (
-            <Text variant="label">Runtime: {movieDetails.runtime} minutes</Text>
-          )}
-        </Spacer>
+    <Container>
+      <Header>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <BackButton name="md-arrow-back" size={32} color="black" />
+        </TouchableOpacity>
+      </Header>
+      <ScrollView>
+        <Backdrop
+          resizeMode="cover"
+          source={{ uri: `${POSTERS}${movie.backdrop_path}` }}
+        />
+        <Title variant="title">{movie.title}</Title>
+        {movieDetails && (
+          <Title variant="caption">{movieDetails.tagline}</Title>
+        )}
         <Spacer position="top" size="small">
-          <Text variant="body">{movie.overview}</Text>
+          <Options>
+            <StatusButton onPress={() => updateStatus('queued')}>
+              <Ionicons
+                name={
+                  interest === mediaStatus.queued ? 'md-checkmark' : 'md-add'
+                }
+                size={48}
+                color={
+                  interest === mediaStatus.queued
+                    ? theme.colors.brand.primary
+                    : theme.colors.ui.secondary
+                }
+              />
+              <Text variant="caption">My Queue</Text>
+            </StatusButton>
+            <StatusButton onPress={() => updateStatus('good')}>
+              <Ionicons
+                name={
+                  interest === mediaStatus.good
+                    ? 'md-thumbs-up'
+                    : 'md-thumbs-up-outline'
+                }
+                size={48}
+                color={
+                  interest === mediaStatus.good
+                    ? theme.colors.brand.primary
+                    : theme.colors.ui.secondary
+                }
+              />
+              <Text variant="caption">Like</Text>
+            </StatusButton>
+            <StatusButton onPress={() => updateStatus('bad')}>
+              <Ionicons
+                name={
+                  interest === mediaStatus.bad
+                    ? 'md-thumbs-down'
+                    : 'md-thumbs-down-outline'
+                }
+                size={48}
+                color={
+                  interest === mediaStatus.bad
+                    ? theme.colors.brand.primary
+                    : theme.colors.ui.secondary
+                }
+              />
+              <Text variant="caption">Dislike</Text>
+            </StatusButton>
+            <StatusButton onPress={() => updateStatus('ignore')}>
+              <Ionicons
+                name={
+                  interest === mediaStatus.ignore
+                    ? 'md-remove-circle'
+                    : 'md-remove-circle-outline'
+                }
+                size={48}
+                color={
+                  interest === mediaStatus.ignore
+                    ? theme.colors.ui.error
+                    : theme.colors.ui.secondary
+                }
+              />
+              <Text variant="caption">Not Interested</Text>
+            </StatusButton>
+          </Options>
         </Spacer>
-        <Spacer position="top" size="medium">
+        <InfoContainer>
           <Divider />
-          <Text variant="label">[Credits go here]</Text>
-          <Text variant="label">Director, cast, etc</Text>
-        </Spacer>
-      </InfoContainer>
-    </ScrollView>
+          <GenreContainer>
+            {movieDetails &&
+              movieDetails.genres.map((genre) => {
+                const key = `genre-${movie.id}-${genre.id}`;
+                return (
+                  <Text key={key} variant="heading">
+                    {genre.name}
+                  </Text>
+                );
+              })}
+          </GenreContainer>
+          <Divider />
+          <Spacer position="top" size="medium">
+            <Text variant="label">Released: {movie.release_date}</Text>
+            {movieDetails && (
+              <Text variant="label">
+                Runtime: {movieDetails.runtime} minutes
+              </Text>
+            )}
+          </Spacer>
+          <Spacer position="top" size="small">
+            <Text variant="body">{movie.overview}</Text>
+          </Spacer>
+          <Spacer position="top" size="medium">
+            <Divider />
+            <Text variant="label">[Credits go here]</Text>
+            <Text variant="label">Director, cast, etc</Text>
+          </Spacer>
+        </InfoContainer>
+        <ScrollSpacer />
+      </ScrollView>
+    </Container>
   );
 };
