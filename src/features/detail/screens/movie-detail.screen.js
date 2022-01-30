@@ -144,11 +144,16 @@ export const MovieDetailScreen = ({ route, navigation }) => {
           </GenreContainer>
           <Divider />
           <Spacer position="top" size="medium">
-            <Text variant="label">Released: {movie.release_date}</Text>
             {movieDetails && (
-              <Text variant="label">
-                Runtime: {movieDetails.runtime} minutes
-              </Text>
+              <>
+                <Text variant="label">
+                  TMDB Rating: {movieDetails.vote_average}
+                </Text>
+                <Text variant="label">
+                  Runtime: {movieDetails.runtime} minutes
+                </Text>
+                <Text variant="label">Released: {movie.release_date}</Text>
+              </>
             )}
           </Spacer>
           <Spacer position="top" size="small">
