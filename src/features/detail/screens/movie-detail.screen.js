@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 
 import {
   BackButton,
@@ -13,8 +13,10 @@ import {
   StatusButton,
   Title,
 } from '../components/movie-detail.styles';
+import { GetMovieCredits } from '../../../api/movies.api';
 import { GetMovieDetails } from '../../../api/movies.api';
 import { POSTERS } from '../../../api/constants';
+import { PersonCard } from '../components/person-card.component';
 import { ScreenContainer } from '../../../components/utility/screen-container.component';
 import { Spacer } from '../../../components/spacer/spacer.component';
 import { Text } from '../../../components/typography/text.component';
@@ -30,12 +32,20 @@ const mediaStatus = {
 export const MovieDetailScreen = ({ route, navigation }) => {
   const { movie } = route.params;
   const [movieDetails, setMovieDetails] = useState(null);
+  const [movieCredits, setMovieCredits] = useState(null);
   const [interest, setInterest] = useState(null);
 
   useEffect(() => {
     (async () => {
       const md = await GetMovieDetails(movie.id);
       setMovieDetails(md);
+    })();
+  }, [movie.id]);
+
+  useEffect(() => {
+    (async () => {
+      const mc = await GetMovieCredits(movie.id);
+      setMovieCredits(mc);
     })();
   }, [movie.id]);
 
@@ -54,7 +64,7 @@ export const MovieDetailScreen = ({ route, navigation }) => {
           <BackButton name="md-arrow-back" size={32} color="black" />
         </TouchableOpacity>
       </Header>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Backdrop
           resizeMode="cover"
           source={{ uri: `${POSTERS}${movie.backdrop_path}` }}
@@ -145,7 +155,12 @@ export const MovieDetailScreen = ({ route, navigation }) => {
           <Divider />
           <Spacer position="top" size="medium">
             {movieDetails && (
-              <>
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
                 <Text variant="label">
                   TMDB Rating: {movieDetails.vote_average}
                 </Text>
@@ -153,16 +168,42 @@ export const MovieDetailScreen = ({ route, navigation }) => {
                   Runtime: {movieDetails.runtime} minutes
                 </Text>
                 <Text variant="label">Released: {movie.release_date}</Text>
-              </>
+              </View>
             )}
           </Spacer>
           <Spacer position="top" size="small">
-            <Text variant="body">{movie.overview}</Text>
+            <Text
+              variant="body"
+              style={{
+                textAlign: 'justify',
+              }}
+            >
+              {movie.overview}
+            </Text>
           </Spacer>
           <Spacer position="top" size="medium">
-            <Divider />
-            <Text variant="label">[Credits go here]</Text>
-            <Text variant="label">Director, cast, etc</Text>
+            <Spacer position="bottom" size="medium">
+              <Divider />
+            </Spacer>
+            {movieCredits && (
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {movieCredits.cast.map((person) => {
+                  const key = `movieCast-${movie.id}-${person.id}`;
+                  return (
+                    <TouchableOpacity
+                      key={key}
+                      onPress={() =>
+                        navigation.navigate('PersonDetail', {
+                          person,
+                        })
+                      }
+                    >
+                      <PersonCard person={person} />
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
+            )}
           </Spacer>
         </InfoContainer>
       </ScrollView>

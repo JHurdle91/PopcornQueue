@@ -24,3 +24,14 @@ export const GetMovieDetails = async (id) => {
     throw new Error(err);
   }
 };
+
+export const GetMovieCredits = async (id) => {
+  try {
+    const response = await axios.get(
+      `${MOVIE}/${id}/credits?api_key=${TMDB_API_KEY}&language=en-US`
+    );
+    return response.data;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
