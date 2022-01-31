@@ -48,3 +48,14 @@ export const BackButton = styled(Ionicons)`
 export const Header = styled.View`
   flex-direction: row;
 `;
+
+export const QuickInfo = styled.View`
+  align-items: center;
+  justify-content: center;
+`;
+
+export const OverviewText = styled(Text).attrs({
+  variant: 'body',
+})`
+  text-align: justify;
+`;

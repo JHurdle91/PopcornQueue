@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 
 import {
   BackButton,
@@ -10,6 +10,8 @@ import {
   Header,
   InfoContainer,
   Options,
+  OverviewText,
+  QuickInfo,
   StatusButton,
   Title,
 } from '../components/movie-detail.styles';
@@ -155,31 +157,19 @@ export const MovieDetailScreen = ({ route, navigation }) => {
           <Divider />
           <Spacer position="top" size="medium">
             {movieDetails && (
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
+              <QuickInfo>
                 <Text variant="label">
                   TMDB Rating: {movieDetails.vote_average}
                 </Text>
+                <Text variant="label">Released: {movie.release_date}</Text>
                 <Text variant="label">
                   Runtime: {movieDetails.runtime} minutes
                 </Text>
-                <Text variant="label">Released: {movie.release_date}</Text>
-              </View>
+              </QuickInfo>
             )}
           </Spacer>
           <Spacer position="top" size="small">
-            <Text
-              variant="body"
-              style={{
-                textAlign: 'justify',
-              }}
-            >
-              {movie.overview}
-            </Text>
+            <OverviewText>{movie.overview}</OverviewText>
           </Spacer>
           <Spacer position="top" size="medium">
             <Spacer position="bottom" size="medium">
