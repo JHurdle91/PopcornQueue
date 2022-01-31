@@ -50,7 +50,7 @@ export const PersonCard = (person) => {
         </Header>
         <Thumbnail resizeMode="cover" source={{ uri: source }} />
         <Footer>
-          <InfoText>{p.character}</InfoText>
+          <InfoText>{p.job ? p.job : p.character}</InfoText>
         </Footer>
       </Card>
     </Container>

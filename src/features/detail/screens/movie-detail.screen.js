@@ -187,8 +187,25 @@ export const MovieDetailScreen = ({ route, navigation }) => {
             </Spacer>
             {movieCredits && (
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {movieCredits.crew.map((person) => {
+                  const key = `movieCredits-${movie.id}-${person.id}`;
+                  if (person.job === 'Director') {
+                    return (
+                      <TouchableOpacity
+                        key={key}
+                        onPress={() =>
+                          navigation.navigate('PersonDetail', {
+                            person,
+                          })
+                        }
+                      >
+                        <PersonCard person={person} />
+                      </TouchableOpacity>
+                    );
+                  }
+                })}
                 {movieCredits.cast.map((person) => {
-                  const key = `movieCast-${movie.id}-${person.id}`;
+                  const key = `movieCredits-${movie.id}-${person.id}`;
                   return (
                     <TouchableOpacity
                       key={key}
