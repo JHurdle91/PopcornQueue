@@ -19,6 +19,11 @@ const heading = (theme) => `
   font-family: ${theme.fonts.heading};
 `;
 
+const pageHeader = (theme) => `
+  font-size: ${theme.fontSizes.title};
+  font-family: ${theme.fonts.info};
+`;
+
 const body = (theme) => `
   font-size: ${theme.fontSizes.body};
 `;
@@ -47,6 +52,7 @@ const label = (theme) => `
 const variants = {
   title,
   heading,
+  pageHeader,
   body,
   label,
   caption,

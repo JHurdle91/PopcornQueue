@@ -42,11 +42,15 @@ export const Divider = styled.View`
 `;
 
 export const BackButton = styled(Ionicons)`
-  padding: 8px 16px 8px 16px;
+  padding-left: 16px;
+  padding-right: 16px;
 `;
 
 export const Header = styled.View`
   flex-direction: row;
+  align-items: center;
+  padding-top: 8px;
+  padding-bottom: 8px;
 `;
 
 export const QuickInfo = styled.View`
@@ -58,4 +62,14 @@ export const OverviewText = styled(Text).attrs({
   variant: 'body',
 })`
   text-align: justify;
+`;
+
+export const Loading = styled.ActivityIndicator`
+  margin-left: -25px;
+`;
+
+export const LoadingContainer = styled.View`
+  position: absolute;
+  top: 50%;
+  left: 50%;
 `;
