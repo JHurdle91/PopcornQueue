@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { ScrollView, TouchableOpacity } from 'react-native';
 
@@ -17,6 +17,7 @@ import {
 } from '../components/movie-detail.styles';
 import { GetMovieCredits } from '../../../api/movies.api';
 import { GetMovieDetails } from '../../../api/movies.api';
+import { MoviesContext } from '../../../services/movies/movies.context';
 import { POSTERS } from '../../../api/constants';
 import { PersonCard } from '../components/person-card.component';
 import { ScreenContainer } from '../../../components/utility/screen-container.component';
@@ -33,16 +34,9 @@ const mediaStatus = {
 
 export const MovieDetailScreen = ({ route, navigation }) => {
   const { movie } = route.params;
-  const [movieDetails, setMovieDetails] = useState(null);
+  const { movieDetails } = useContext(MoviesContext);
   const [movieCredits, setMovieCredits] = useState(null);
   const [interest, setInterest] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      const md = await GetMovieDetails(movie.id);
-      setMovieDetails(md);
-    })();
-  }, [movie.id]);
 
   useEffect(() => {
     (async () => {

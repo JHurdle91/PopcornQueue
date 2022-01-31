@@ -10,7 +10,8 @@ import { Text } from '../../../components/typography/text.component';
 const Wrapper = styled.View``;
 
 export const PopularMoviesList = ({ navigation }) => {
-  const { popularMovies, isLoading, error } = useContext(MoviesContext);
+  const { popularMovies, setMovieId, isLoading, error } =
+    useContext(MoviesContext);
 
   return (
     <Wrapper>
@@ -24,11 +25,12 @@ export const PopularMoviesList = ({ navigation }) => {
           return (
             <TouchableOpacity
               key={key}
-              onPress={() =>
+              onPress={() => {
+                setMovieId(movie.id);
                 navigation.navigate('MovieDetail', {
                   movie,
-                })
-              }
+                });
+              }}
             >
               <MovieCard movie={movie} />
             </TouchableOpacity>

@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 
+import { GetMovieDetails } from '../../api/movies.api';
 import { GetPopularMovies } from '../../api/movies.api';
 import { moviesTransform } from './movies.service';
 
@@ -7,6 +8,8 @@ export const MoviesContext = createContext();
 
 export const MoviesContextProvider = ({ children }) => {
   const [popularMovies, setPopularMovies] = useState([]);
+  const [movieDetails, setMovieDetails] = useState(null);
+  const [movieId, setMovieId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -23,9 +26,26 @@ export const MoviesContextProvider = ({ children }) => {
     setIsLoading(false);
   };
 
+  const retrieveMovieDetails = async (id) => {
+    setIsLoading(true);
+    setMovieDetails(null);
+    try {
+      let md = await GetMovieDetails(id);
+      md = moviesTransform([md])[0];
+      setMovieDetails(md);
+    } catch (err) {
+      setError(err);
+    }
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     retrievePopularMovies();
   }, []);
+
+  useEffect(() => {
+    retrieveMovieDetails(movieId);
+  }, [movieId]);
 
   return (
     <MoviesContext.Provider
@@ -33,6 +53,8 @@ export const MoviesContextProvider = ({ children }) => {
         popularMovies,
         isLoading,
         error,
+        movieDetails,
+        setMovieId,
       }}
     >
       {children}
