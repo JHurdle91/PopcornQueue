@@ -69,9 +69,11 @@ export const MovieDetailScreen = ({ route, navigation }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <Backdrop
           resizeMode="cover"
-          source={{ uri: `${POSTERS}${movie.backdrop_path}` }}
+          source={{ uri: `${POSTERS}${movie.backdropPath}` }}
         />
-        <Title variant="title">{movie.title}</Title>
+        <Title variant="title">
+          {movie.title} ({movie.year})
+        </Title>
         {movieDetails && (
           <Title variant="caption">{movieDetails.tagline}</Title>
         )}
@@ -158,10 +160,7 @@ export const MovieDetailScreen = ({ route, navigation }) => {
           <Spacer position="top" size="medium">
             {movieDetails && (
               <QuickInfo>
-                <Text variant="label">
-                  TMDB Rating: {movieDetails.vote_average}
-                </Text>
-                <Text variant="label">Released: {movie.release_date}</Text>
+                <Text variant="label">TMDB Rating: {movie.rating}</Text>
                 <Text variant="label">
                   Runtime: {movieDetails.runtime} minutes
                 </Text>

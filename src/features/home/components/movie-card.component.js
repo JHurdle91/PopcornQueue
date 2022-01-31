@@ -16,7 +16,7 @@ const Thumbnail = styled.Image`
 
 export const MovieCard = (movie) => {
   const m = movie.movie;
-  const source = `${POSTERS}${m.poster_path}`;
+  const source = `${POSTERS}${m.posterPath}`;
   return (
     <Card>
       <Thumbnail resizeMode="cover" source={{ uri: source }} />

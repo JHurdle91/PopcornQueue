@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { HomeNavigator } from './home.navigator';
+import { MoviesContextProvider } from '../../services/movies/movies.context';
 import { SafeArea } from '../../components/utility/safe-area.component';
 import { Text } from '../../components/typography/text.component';
 import { theme } from '../theme/index';
@@ -45,12 +46,14 @@ export const AppNavigator = () => {
 
   return (
     <SafeArea>
-      <Tab.Navigator screenOptions={createScreenOptions}>
-        <Tab.Screen name="Home" component={HomeNavigator} />
-        <Tab.Screen name="Queue" component={QueueNavigator} />
-        <Tab.Screen name="Friends" component={FriendsNavigator} />
-        <Tab.Screen name="Settings" component={SettingsNavigator} />
-      </Tab.Navigator>
+      <MoviesContextProvider>
+        <Tab.Navigator screenOptions={createScreenOptions}>
+          <Tab.Screen name="Home" component={HomeNavigator} />
+          <Tab.Screen name="Queue" component={QueueNavigator} />
+          <Tab.Screen name="Friends" component={FriendsNavigator} />
+          <Tab.Screen name="Settings" component={SettingsNavigator} />
+        </Tab.Navigator>
+      </MoviesContextProvider>
     </SafeArea>
   );
 };
