@@ -15,8 +15,6 @@ import {
   StatusButton,
   Title,
 } from '../components/movie-detail.styles';
-import { GetMovieCredits } from '../../../api/movies.api';
-import { GetMovieDetails } from '../../../api/movies.api';
 import { MoviesContext } from '../../../services/movies/movies.context';
 import { POSTERS } from '../../../api/constants';
 import { PersonCard } from '../components/person-card.component';
@@ -32,18 +30,16 @@ const mediaStatus = {
   ignore: 4,
 };
 
-export const MovieDetailScreen = ({ route, navigation }) => {
-  const { movie } = route.params;
-  const { movieDetails } = useContext(MoviesContext);
-  const [movieCredits, setMovieCredits] = useState(null);
+export const MovieDetailScreen = ({ navigation }) => {
+  const { movie } = useContext(MoviesContext);
   const [interest, setInterest] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      const mc = await GetMovieCredits(movie.id);
-      setMovieCredits(mc);
-    })();
-  }, [movie.id]);
+    if (movie && movie.cast && movie.genres) {
+      setIsLoaded(true);
+    }
+  }, [movie]);
 
   const updateStatus = (status) => {
     if (interest === mediaStatus[status]) {
@@ -56,20 +52,26 @@ export const MovieDetailScreen = ({ route, navigation }) => {
   return (
     <ScreenContainer>
       <Header>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
           <BackButton name="md-arrow-back" size={32} color="black" />
         </TouchableOpacity>
       </Header>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Backdrop
-          resizeMode="cover"
-          source={{ uri: `${POSTERS}${movie.backdropPath}` }}
-        />
-        <Title variant="title">
-          {movie.title} ({movie.year})
-        </Title>
-        {movieDetails && (
-          <Title variant="caption">{movieDetails.tagline}</Title>
+        {isLoaded && (
+          <>
+            <Backdrop
+              resizeMode="cover"
+              source={{ uri: `${POSTERS}${movie.backdropPath}` }}
+            />
+            <Title variant="title">
+              {movie.title} ({movie.year})
+            </Title>
+            <Title variant="caption">{movie.tagline}</Title>
+          </>
         )}
         <Spacer position="top" size="small">
           <Options>
@@ -140,8 +142,8 @@ export const MovieDetailScreen = ({ route, navigation }) => {
         <InfoContainer>
           <Divider />
           <GenreContainer>
-            {movieDetails &&
-              movieDetails.genres.map((genre) => {
+            {isLoaded &&
+              movie.genres.map((genre) => {
                 const key = `genre-${movie.id}-${genre.id}`;
                 return (
                   <Text key={key} variant="heading">
@@ -152,25 +154,23 @@ export const MovieDetailScreen = ({ route, navigation }) => {
           </GenreContainer>
           <Divider />
           <Spacer position="top" size="medium">
-            {movieDetails && (
+            {isLoaded && (
               <QuickInfo>
                 <Text variant="label">TMDB Rating: {movie.rating}</Text>
-                <Text variant="label">
-                  Runtime: {movieDetails.runtime} minutes
-                </Text>
+                <Text variant="label">Runtime: {movie.runtime} minutes</Text>
               </QuickInfo>
             )}
           </Spacer>
           <Spacer position="top" size="small">
-            <OverviewText>{movie.overview}</OverviewText>
+            {isLoaded && <OverviewText>{movie.overview}</OverviewText>}
           </Spacer>
           <Spacer position="top" size="medium">
             <Spacer position="bottom" size="medium">
               <Divider />
             </Spacer>
-            {movieCredits && (
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                {movieCredits.crew.map((person) => {
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {isLoaded &&
+                movie.crew.map((person) => {
                   const key = `movieCredits-${movie.id}-${person.id}`;
                   if (person.job === 'Director') {
                     return (
@@ -187,7 +187,8 @@ export const MovieDetailScreen = ({ route, navigation }) => {
                     );
                   }
                 })}
-                {movieCredits.cast.map((person) => {
+              {isLoaded &&
+                movie.cast.map((person) => {
                   const key = `movieCredits-${movie.id}-${person.id}`;
                   return (
                     <TouchableOpacity
@@ -202,8 +203,7 @@ export const MovieDetailScreen = ({ route, navigation }) => {
                     </TouchableOpacity>
                   );
                 })}
-              </ScrollView>
-            )}
+            </ScrollView>
           </Spacer>
         </InfoContainer>
       </ScrollView>

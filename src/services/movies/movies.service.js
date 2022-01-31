@@ -19,3 +19,12 @@ export const moviesTransform = (results = []) => {
 
   return camelize(mappedResults);
 };
+
+export const combineMovieInfo = (details, credits) => {
+  const movie = {
+    ...details,
+    ...credits,
+  };
+  const camelizedMovie = camelize(movie);
+  return camelizedMovie;
+};

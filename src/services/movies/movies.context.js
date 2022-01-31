@@ -1,7 +1,9 @@
 import React, { createContext, useEffect, useState } from 'react';
 
+import { GetMovieCredits } from '../../api/movies.api';
 import { GetMovieDetails } from '../../api/movies.api';
 import { GetPopularMovies } from '../../api/movies.api';
+import { combineMovieInfo } from './movies.service';
 import { moviesTransform } from './movies.service';
 
 export const MoviesContext = createContext();
@@ -9,12 +11,16 @@ export const MoviesContext = createContext();
 export const MoviesContextProvider = ({ children }) => {
   const [popularMovies, setPopularMovies] = useState([]);
   const [movieDetails, setMovieDetails] = useState(null);
+  const [movieCredits, setMovieCredits] = useState(null);
   const [movieId, setMovieId] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [movie, setMovie] = useState(null);
+  const [isLoadingPopular, setIsLoadingPopular] = useState(false);
+  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
+  const [isLoadingCredits, setIsLoadingCredits] = useState(false);
   const [error, setError] = useState(null);
 
   const retrievePopularMovies = async () => {
-    setIsLoading(true);
+    setIsLoadingPopular(true);
     setPopularMovies([]);
     try {
       let pm = await GetPopularMovies();
@@ -23,11 +29,27 @@ export const MoviesContextProvider = ({ children }) => {
     } catch (err) {
       setError(err);
     }
-    setIsLoading(false);
+    setIsLoadingPopular(false);
+  };
+
+  useEffect(() => {
+    retrievePopularMovies();
+  }, []);
+
+  const retrieveMovieCredits = async (id) => {
+    setIsLoadingCredits(true);
+    setMovieCredits(null);
+    try {
+      let mc = await GetMovieCredits(id);
+      setMovieCredits(mc);
+    } catch (err) {
+      setError(err);
+    }
+    setIsLoadingCredits(false);
   };
 
   const retrieveMovieDetails = async (id) => {
-    setIsLoading(true);
+    setIsLoadingDetails(true);
     setMovieDetails(null);
     try {
       let md = await GetMovieDetails(id);
@@ -36,25 +58,33 @@ export const MoviesContextProvider = ({ children }) => {
     } catch (err) {
       setError(err);
     }
-    setIsLoading(false);
+    setIsLoadingDetails(false);
+  };
+
+  const onChangeId = async (id) => {
+    setMovie(null);
+    setMovieId(id);
+    await retrieveMovieDetails(id);
+    await retrieveMovieCredits(id);
   };
 
   useEffect(() => {
-    retrievePopularMovies();
-  }, []);
-
-  useEffect(() => {
-    retrieveMovieDetails(movieId);
-  }, [movieId]);
+    if (!isLoadingDetails && !isLoadingCredits) {
+      setMovie(combineMovieInfo(movieDetails, movieCredits));
+    }
+  }, [movieDetails, movieCredits, isLoadingDetails, isLoadingCredits]);
 
   return (
     <MoviesContext.Provider
       value={{
         popularMovies,
-        isLoading,
+        isLoadingPopular,
+        isLoadingDetails,
+        isLoadingCredits,
         error,
         movieDetails,
-        setMovieId,
+        changeId: onChangeId,
+        movie,
       }}
     >
       {children}
