@@ -43,7 +43,7 @@ export const PersonDetailScreen = ({ route, navigation }) => {
   return (
     <ScreenContainer>
       <Header>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
           <BackButton name="md-arrow-back" size={32} color="black" />
         </TouchableOpacity>
       </Header>

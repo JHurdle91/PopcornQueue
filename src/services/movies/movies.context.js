@@ -66,6 +66,12 @@ export const MoviesContextProvider = ({ children }) => {
     await retrieveMovieCredits(id);
   };
 
+  const onClearMovie = () => {
+    setMovieDetails(null);
+    setMovieCredits(null);
+    setMovie(null);
+  };
+
   useEffect(() => {
     if (!isLoadingDetails && !isLoadingCredits) {
       setMovie(combineMovieInfo(movieDetails, movieCredits));
@@ -83,6 +89,7 @@ export const MoviesContextProvider = ({ children }) => {
         movieDetails,
         changeId: onChangeId,
         movie,
+        clearMovie: onClearMovie,
       }}
     >
       {children}

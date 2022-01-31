@@ -33,7 +33,7 @@ const mediaStatus = {
 };
 
 export const MovieDetailScreen = ({ navigation }) => {
-  const { movie } = useContext(MoviesContext);
+  const { movie, clearMovie } = useContext(MoviesContext);
   const [interest, setInterest] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -51,13 +51,18 @@ export const MovieDetailScreen = ({ navigation }) => {
     }
   };
 
+  const componentCleanup = () => {
+    setIsLoaded(false);
+    clearMovie();
+  };
+
   return (
     <ScreenContainer>
       <Header>
         <TouchableOpacity
           onPress={() => {
-            navigation.goBack();
-            setIsLoaded(false);
+            navigation.navigate('HomeScreen');
+            componentCleanup();
           }}
         >
           <BackButton name="md-arrow-back" size={32} color="black" />
@@ -185,7 +190,7 @@ export const MovieDetailScreen = ({ navigation }) => {
                           navigation.navigate('PersonDetail', {
                             person,
                           });
-                          setIsLoaded(false);
+                          componentCleanup();
                         }}
                       >
                         <PersonCard person={person} />
@@ -202,7 +207,7 @@ export const MovieDetailScreen = ({ navigation }) => {
                         navigation.navigate('PersonDetail', {
                           person,
                         });
-                        setIsLoaded(false);
+                        componentCleanup();
                       }}
                     >
                       <PersonCard person={person} />
