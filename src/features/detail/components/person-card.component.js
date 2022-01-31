@@ -41,7 +41,7 @@ const InfoText = styled(Text).attrs({
 
 export const PersonCard = (person) => {
   const p = person.person;
-  const source = `${POSTERS}${p.profile_path}`;
+  const source = `${POSTERS}${p.profilePath}`;
   return (
     <Container>
       <Card>

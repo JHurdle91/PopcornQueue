@@ -26,9 +26,7 @@ export const PopularMoviesList = ({ navigation }) => {
               key={key}
               onPress={() => {
                 changeId(movie.id);
-                navigation.navigate('MovieDetail', {
-                  movie,
-                });
+                navigation.navigate('MovieDetail');
               }}
             >
               <MovieCard movie={movie} />

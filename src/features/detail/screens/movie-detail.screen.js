@@ -57,6 +57,7 @@ export const MovieDetailScreen = ({ navigation }) => {
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
+            setIsLoaded(false);
           }}
         >
           <BackButton name="md-arrow-back" size={32} color="black" />
@@ -180,11 +181,12 @@ export const MovieDetailScreen = ({ navigation }) => {
                     return (
                       <TouchableOpacity
                         key={key}
-                        onPress={() =>
+                        onPress={() => {
                           navigation.navigate('PersonDetail', {
                             person,
-                          })
-                        }
+                          });
+                          setIsLoaded(false);
+                        }}
                       >
                         <PersonCard person={person} />
                       </TouchableOpacity>
@@ -196,11 +198,12 @@ export const MovieDetailScreen = ({ navigation }) => {
                   return (
                     <TouchableOpacity
                       key={key}
-                      onPress={() =>
+                      onPress={() => {
                         navigation.navigate('PersonDetail', {
                           person,
-                        })
-                      }
+                        });
+                        setIsLoaded(false);
+                      }}
                     >
                       <PersonCard person={person} />
                     </TouchableOpacity>

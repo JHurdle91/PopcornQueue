@@ -12,7 +12,6 @@ export const MoviesContextProvider = ({ children }) => {
   const [popularMovies, setPopularMovies] = useState([]);
   const [movieDetails, setMovieDetails] = useState(null);
   const [movieCredits, setMovieCredits] = useState(null);
-  const [movieId, setMovieId] = useState(null);
   const [movie, setMovie] = useState(null);
   const [isLoadingPopular, setIsLoadingPopular] = useState(false);
   const [isLoadingDetails, setIsLoadingDetails] = useState(false);
@@ -63,7 +62,6 @@ export const MoviesContextProvider = ({ children }) => {
 
   const onChangeId = async (id) => {
     setMovie(null);
-    setMovieId(id);
     await retrieveMovieDetails(id);
     await retrieveMovieCredits(id);
   };
