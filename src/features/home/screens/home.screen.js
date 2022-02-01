@@ -3,6 +3,7 @@ import { ScrollView } from 'react-native';
 
 import { MoviesInTheatresList } from '../components/movies-in-theatres-list.component';
 import { PopularMoviesList } from '../components/popular-movies-list.component';
+import { PopularShowsList } from '../components/popular-shows-list.component';
 import { ScreenContainer } from '../../../components/utility/screen-container.component';
 import { Spacer } from '../../../components/spacer/spacer.component';
 import { TopRatedMoviesList } from '../components/top-rated-movies-list.component';
@@ -22,6 +23,9 @@ export const HomeScreen = ({ navigation }) => {
           </Spacer>
           <Spacer position="top" size="medium">
             <TopRatedMoviesList navigation={navigation} />
+          </Spacer>
+          <Spacer position="top" size="medium">
+            <PopularShowsList navigation={navigation} />
           </Spacer>
         </Spacer>
       </ScrollView>
