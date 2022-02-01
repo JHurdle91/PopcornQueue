@@ -3,13 +3,13 @@ import { ScrollView, TouchableOpacity } from 'react-native';
 
 import {
   BackButton,
-  Backdrop,
   Divider,
   Header,
   InfoContainer,
   Loading,
   LoadingContainer,
   OverviewText,
+  Photo,
   QuickInfo,
   Title,
 } from '../components/movie-detail.styles';
@@ -62,7 +62,7 @@ export const PersonDetailScreen = ({ navigation }) => {
         </LoadingContainer>
       ) : (
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Backdrop
+          <Photo
             resizeMode="center"
             source={{ uri: `${POSTERS}${person.profilePath}` }}
           />

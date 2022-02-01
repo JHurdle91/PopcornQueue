@@ -10,6 +10,11 @@ export const Backdrop = styled.Image`
   height: ${windowHeight / 3}px;
 `;
 
+export const Photo = styled.Image`
+  height: ${windowHeight / 3}px;
+  border-radius: 10px;
+`;
+
 export const Title = styled(Text)`
   text-align: center;
 `;
