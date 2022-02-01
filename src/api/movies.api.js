@@ -14,6 +14,17 @@ export const GetPopularMovies = async () => {
   }
 };
 
+export const GetMoviesInTheatres = async () => {
+  try {
+    const response = await axios.get(
+      `${MOVIE}/now_playing?api_key=${TMDB_API_KEY}&language=en-US`
+    );
+    return response.data.results;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
 export const GetMovieDetails = async (id) => {
   try {
     const response = await axios.get(

@@ -3,6 +3,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import { GetMovieCredits } from '../../api/movies.api';
 import { GetMovieDetails } from '../../api/movies.api';
 import { GetMovieRecommendations } from '../../api/movies.api';
+import { GetMoviesInTheatres } from '../../api/movies.api';
 import { GetPopularMovies } from '../../api/movies.api';
 import { combineMovieInfo } from './movies.service';
 import { moviesTransform } from './movies.service';
@@ -11,11 +12,13 @@ export const MoviesContext = createContext();
 
 export const MoviesContextProvider = ({ children }) => {
   const [popularMovies, setPopularMovies] = useState([]);
+  const [moviesInTheatres, setMoviesInTheatres] = useState([]);
   const [movieDetails, setMovieDetails] = useState(null);
   const [movieRecommendations, setMovieRecommendations] = useState(null);
   const [movieCredits, setMovieCredits] = useState(null);
   const [movie, setMovie] = useState(null);
   const [isLoadingPopular, setIsLoadingPopular] = useState(false);
+  const [isLoadingTheatres, setIsLoadingTheatres] = useState(false);
   const [isLoadingDetails, setIsLoadingDetails] = useState(false);
   const [isLoadingRecommendations, setIsLoadingRecommendations] =
     useState(false);
@@ -35,8 +38,22 @@ export const MoviesContextProvider = ({ children }) => {
     setIsLoadingPopular(false);
   };
 
+  const retrieveMoviesInTheatres = async () => {
+    setIsLoadingTheatres(true);
+    setMoviesInTheatres([]);
+    try {
+      let pm = await GetMoviesInTheatres();
+      pm = moviesTransform(pm);
+      setMoviesInTheatres(pm);
+    } catch (err) {
+      setError(err);
+    }
+    setIsLoadingTheatres(false);
+  };
+
   useEffect(() => {
     retrievePopularMovies();
+    retrieveMoviesInTheatres();
   }, []);
 
   const retrieveMovieCredits = async (id) => {
@@ -105,6 +122,7 @@ export const MoviesContextProvider = ({ children }) => {
         changeMovieId: onChangeId,
         movie,
         movieRecommendations,
+        moviesInTheatres,
       }}
     >
       {children}
