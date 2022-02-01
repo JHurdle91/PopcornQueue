@@ -182,6 +182,7 @@ export const MovieDetailScreen = ({ navigation }) => {
               <Spacer position="bottom" size="medium">
                 <Divider />
               </Spacer>
+              <Text variant="heading">Cast</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {movie.crew.map((person) => {
                   const key = `movieCredits-${movie.id}-${person.id}-${person.character}`;
