@@ -19,6 +19,7 @@ import {
 } from '../components/movie-detail.styles';
 import { MoviesContext } from '../../../services/movies/movies.context';
 import { POSTERS } from '../../../api/constants';
+import { PeopleContext } from '../../../services/people/people.context';
 import { PersonCard } from '../components/person-card.component';
 import { ScreenContainer } from '../../../components/utility/screen-container.component';
 import { Spacer } from '../../../components/spacer/spacer.component';
@@ -34,6 +35,7 @@ const mediaStatus = {
 
 export const MovieDetailScreen = ({ navigation }) => {
   const { movie, clearMovie } = useContext(MoviesContext);
+  const { changeId } = useContext(PeopleContext);
   const [interest, setInterest] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -187,9 +189,8 @@ export const MovieDetailScreen = ({ navigation }) => {
                       <TouchableOpacity
                         key={key}
                         onPress={() => {
-                          navigation.navigate('PersonDetail', {
-                            person,
-                          });
+                          changeId(person.id);
+                          navigation.navigate('PersonDetail');
                           componentCleanup();
                         }}
                       >
@@ -204,9 +205,8 @@ export const MovieDetailScreen = ({ navigation }) => {
                     <TouchableOpacity
                       key={key}
                       onPress={() => {
-                        navigation.navigate('PersonDetail', {
-                          person,
-                        });
+                        changeId(person.id);
+                        navigation.navigate('PersonDetail');
                         componentCleanup();
                       }}
                     >

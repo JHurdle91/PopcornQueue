@@ -41,7 +41,7 @@ const InfoText = styled(Text).attrs({
 
 export const MovieCard = (movie) => {
   const m = movie.movie;
-  const source = `${POSTERS}${m.poster_path}`;
+  const source = `${POSTERS}${m.posterPath}`;
   return (
     <Container>
       <Card>

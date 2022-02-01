@@ -7,79 +7,93 @@ import {
   Divider,
   Header,
   InfoContainer,
+  Loading,
+  LoadingContainer,
   OverviewText,
   QuickInfo,
   Title,
 } from '../components/movie-detail.styles';
-import { GetPersonCredits } from '../../../api/people.api';
-import { GetPersonDetails } from '../../../api/people.api';
 import { MovieCard } from '../components/movie-card.component';
 import { MoviesContext } from '../../../services/movies/movies.context';
 import { POSTERS } from '../../../api/constants';
+import { PeopleContext } from '../../../services/people/people.context';
 import { ScreenContainer } from '../../../components/utility/screen-container.component';
 import { Spacer } from '../../../components/spacer/spacer.component';
 import { Text } from '../../../components/typography/text.component';
+import { theme } from '../../../infrastructure/theme';
 
-export const PersonDetailScreen = ({ route, navigation }) => {
-  const { person } = route.params;
+export const PersonDetailScreen = ({ navigation }) => {
+  const { person, clearPerson } = useContext(PeopleContext);
   const { changeId } = useContext(MoviesContext);
-  const [personDetails, setPersonDetails] = useState(null);
-  const [personCredits, setPersonCredits] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      const pd = await GetPersonDetails(person.id);
-      setPersonDetails(pd);
-    })();
-  }, [person.id]);
+    if (person && person.cast && person.birthday) {
+      setIsLoaded(true);
+    }
+  }, [person]);
 
-  useEffect(() => {
-    (async () => {
-      const pc = await GetPersonCredits(person.id);
-      setPersonCredits(pc);
-    })();
-  }, [person.id]);
+  const componentCleanup = () => {
+    setIsLoaded(false);
+    clearPerson();
+  };
 
   return (
     <ScreenContainer>
       <Header>
-        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('HomeScreen');
+            componentCleanup();
+          }}
+        >
           <BackButton name="md-arrow-back" size={32} color="black" />
         </TouchableOpacity>
+        <Text variant="pageHeader">Person Info</Text>
       </Header>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Backdrop
-          resizeMode="cover"
-          source={{ uri: `${POSTERS}${person.profilePath}` }}
-        />
-        <Title variant="title">{person.name}</Title>
-        <InfoContainer>
-          <Divider />
-          <Spacer position="top" size="medium">
-            {personDetails && (
+
+      {!isLoaded ? (
+        <LoadingContainer>
+          <Loading
+            size={50}
+            animating={true}
+            color={theme.colors.brand.primary}
+          />
+        </LoadingContainer>
+      ) : (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Backdrop
+            resizeMode="cover"
+            source={{ uri: `${POSTERS}${person.profilePath}` }}
+          />
+          <Title variant="title">{person.name}</Title>
+          <InfoContainer>
+            <Divider />
+            <Spacer position="top" size="medium">
               <QuickInfo>
                 <Text variant="label">
-                  Known for: {personDetails.known_for_department}
+                  Known for: {person.knownForDepartment}
                 </Text>
-                <Text variant="label">Born: {personDetails.birthday}</Text>
-                {personDetails.deathday && (
-                  <Text variant="label">Died: {personDetails.deathday}</Text>
+                <Text variant="label">Born: {person.birthday}</Text>
+                {person.deathday && (
+                  <Text variant="label">
+                    Died: {person.deathday} (Age: {person.age})
+                  </Text>
+                )}
+                {!person.deathday && (
+                  <Text variant="label">Age: {person.age}</Text>
                 )}
               </QuickInfo>
-            )}
-          </Spacer>
-          {personDetails && (
+            </Spacer>
             <Spacer position="top" size="small">
-              <OverviewText>{personDetails.biography}</OverviewText>
+              <OverviewText>{person.biography}</OverviewText>
             </Spacer>
-          )}
-          <Spacer position="top" size="medium">
-            <Spacer position="bottom" size="medium">
-              <Divider />
-            </Spacer>
-            {personCredits && (
+            <Spacer position="top" size="medium">
+              <Spacer position="bottom" size="medium">
+                <Divider />
+              </Spacer>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                {personCredits.crew.map((item) => {
+                {person.crew.map((item) => {
                   const key = `personCredits-${person.id}-${item.id}-${item.job}`;
                   if (item.job === 'Director') {
                     return (
@@ -88,6 +102,7 @@ export const PersonDetailScreen = ({ route, navigation }) => {
                         onPress={() => {
                           changeId(item.id);
                           navigation.navigate('MovieDetail');
+                          componentCleanup();
                         }}
                       >
                         <MovieCard movie={item} />
@@ -95,7 +110,7 @@ export const PersonDetailScreen = ({ route, navigation }) => {
                     );
                   }
                 })}
-                {personCredits.cast.map((item) => {
+                {person.cast.map((item) => {
                   const key = `personCredits-${person.id}-${item.id}-${item.character}`;
                   return (
                     <TouchableOpacity
@@ -103,6 +118,7 @@ export const PersonDetailScreen = ({ route, navigation }) => {
                       onPress={() => {
                         changeId(item.id);
                         navigation.navigate('MovieDetail');
+                        componentCleanup();
                       }}
                     >
                       <MovieCard movie={item} />
@@ -110,10 +126,10 @@ export const PersonDetailScreen = ({ route, navigation }) => {
                   );
                 })}
               </ScrollView>
-            )}
-          </Spacer>
-        </InfoContainer>
-      </ScrollView>
+            </Spacer>
+          </InfoContainer>
+        </ScrollView>
+      )}
     </ScreenContainer>
   );
 };
