@@ -28,7 +28,7 @@ export const PersonDetailScreen = ({ navigation }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (person && person.cast && person.birthday) {
+    if (person && (person.cast || person.crew) && person.birthday) {
       setIsLoaded(true);
     }
   }, [person]);
