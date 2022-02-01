@@ -39,7 +39,7 @@ const InfoText = styled(Text).attrs({
   text-align: center;
 `;
 
-export const MovieCard = (movie) => {
+export const MovieCreditCard = (movie) => {
   const m = movie.movie;
   const source = `${POSTERS}${m.posterPath}`;
   return (

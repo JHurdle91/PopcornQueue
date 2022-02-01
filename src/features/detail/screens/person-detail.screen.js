@@ -13,7 +13,7 @@ import {
   QuickInfo,
   Title,
 } from '../components/detail.styles';
-import { MovieCard } from '../components/movie-card.component';
+import { MovieCreditCard } from '../components/movie-credit-card.component';
 import { MoviesContext } from '../../../services/movies/movies.context';
 import { POSTERS } from '../../../api/constants';
 import { PeopleContext } from '../../../services/people/people.context';
@@ -104,7 +104,7 @@ export const PersonDetailScreen = ({ navigation }) => {
                           componentCleanup();
                         }}
                       >
-                        <MovieCard movie={item} />
+                        <MovieCreditCard movie={item} />
                       </TouchableOpacity>
                     );
                   }
@@ -120,7 +120,7 @@ export const PersonDetailScreen = ({ navigation }) => {
                         componentCleanup();
                       }}
                     >
-                      <MovieCard movie={item} />
+                      <MovieCreditCard movie={item} />
                     </TouchableOpacity>
                   );
                 })}
