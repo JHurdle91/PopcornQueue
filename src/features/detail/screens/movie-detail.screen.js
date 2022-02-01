@@ -17,6 +17,7 @@ import {
   StatusButton,
   Title,
 } from '../components/detail.styles';
+import { MovieRecommendationCard } from '../components/movie-recommendation-card.component';
 import { MoviesContext } from '../../../services/movies/movies.context';
 import { POSTERS } from '../../../api/constants';
 import { PeopleContext } from '../../../services/people/people.context';
@@ -34,16 +35,17 @@ const mediaStatus = {
 };
 
 export const MovieDetailScreen = ({ navigation }) => {
-  const { movie, clearMovie } = useContext(MoviesContext);
-  const { changeId } = useContext(PeopleContext);
+  const { movie, movieRecommendations, changeMovieId } =
+    useContext(MoviesContext);
+  const { changePersonId } = useContext(PeopleContext);
   const [interest, setInterest] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (movie && movie.cast && movie.genres) {
+    if (movie && movie.cast && movie.genres && movieRecommendations) {
       setIsLoaded(true);
     }
-  }, [movie]);
+  }, [movie, movieRecommendations]);
 
   const updateStatus = (status) => {
     if (interest === mediaStatus[status]) {
@@ -55,7 +57,6 @@ export const MovieDetailScreen = ({ navigation }) => {
 
   const componentCleanup = () => {
     setIsLoaded(false);
-    clearMovie();
   };
 
   return (
@@ -189,7 +190,7 @@ export const MovieDetailScreen = ({ navigation }) => {
                       <TouchableOpacity
                         key={key}
                         onPress={() => {
-                          changeId(person.id);
+                          changePersonId(person.id);
                           navigation.navigate('PersonDetail');
                           componentCleanup();
                         }}
@@ -205,12 +206,35 @@ export const MovieDetailScreen = ({ navigation }) => {
                     <TouchableOpacity
                       key={key}
                       onPress={() => {
-                        changeId(person.id);
+                        changePersonId(person.id);
                         navigation.navigate('PersonDetail');
                         componentCleanup();
                       }}
                     >
                       <PersonCard person={person} />
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
+            </Spacer>
+            <Spacer position="top" size="medium">
+              <Spacer position="bottom" size="medium">
+                <Divider />
+              </Spacer>
+              <Text variant="heading">Recommendations</Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {movieRecommendations.map((item) => {
+                  const key = `movieRecs-${item.id}`;
+                  return (
+                    <TouchableOpacity
+                      key={key}
+                      onPress={() => {
+                        changeMovieId(item.id);
+                        navigation.navigate('MovieDetail');
+                        componentCleanup();
+                      }}
+                    >
+                      <MovieRecommendationCard movie={item} />
                     </TouchableOpacity>
                   );
                 })}

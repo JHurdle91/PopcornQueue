@@ -42,14 +42,10 @@ export const PeopleContextProvider = ({ children }) => {
 
   const onChangeId = async (id) => {
     setPerson(null);
-    await retrievePersonDetails(id);
-    await retrievePersonCredits(id);
-  };
-
-  const onClearPerson = () => {
     setPersonDetails(null);
     setPersonCredits(null);
-    setPerson(null);
+    await retrievePersonDetails(id);
+    await retrievePersonCredits(id);
   };
 
   useEffect(() => {
@@ -65,9 +61,8 @@ export const PeopleContextProvider = ({ children }) => {
         isLoadingCredits,
         error,
         personDetails,
-        changeId: onChangeId,
+        changePersonId: onChangeId,
         person,
-        clearPerson: onClearPerson,
       }}
     >
       {children}

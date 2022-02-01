@@ -23,8 +23,8 @@ import { Text } from '../../../components/typography/text.component';
 import { theme } from '../../../infrastructure/theme';
 
 export const PersonDetailScreen = ({ navigation }) => {
-  const { person, clearPerson } = useContext(PeopleContext);
-  const { changeId } = useContext(MoviesContext);
+  const { person } = useContext(PeopleContext);
+  const { changeMovieId } = useContext(MoviesContext);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -35,7 +35,6 @@ export const PersonDetailScreen = ({ navigation }) => {
 
   const componentCleanup = () => {
     setIsLoaded(false);
-    clearPerson();
   };
 
   return (
@@ -100,7 +99,7 @@ export const PersonDetailScreen = ({ navigation }) => {
                       <TouchableOpacity
                         key={key}
                         onPress={() => {
-                          changeId(item.id);
+                          changeMovieId(item.id);
                           navigation.navigate('MovieDetail');
                           componentCleanup();
                         }}
@@ -116,7 +115,7 @@ export const PersonDetailScreen = ({ navigation }) => {
                     <TouchableOpacity
                       key={key}
                       onPress={() => {
-                        changeId(item.id);
+                        changeMovieId(item.id);
                         navigation.navigate('MovieDetail');
                         componentCleanup();
                       }}
