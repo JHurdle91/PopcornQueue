@@ -17,7 +17,7 @@ import {
   StatusButton,
   Title,
 } from '../components/detail.styles';
-import { MovieRecommendationCard } from '../components/movie-recommendation-card.component';
+import { MovieCard } from '../components/movie-card.component';
 import { MoviesContext } from '../../../services/movies/movies.context';
 import { POSTERS } from '../../../api/constants';
 import { PeopleContext } from '../../../services/people/people.context';
@@ -235,7 +235,7 @@ export const MovieDetailScreen = ({ navigation }) => {
                         componentCleanup();
                       }}
                     >
-                      <MovieRecommendationCard movie={item} />
+                      <MovieCard movie={item} />
                     </TouchableOpacity>
                   );
                 })}
