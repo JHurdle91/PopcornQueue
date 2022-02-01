@@ -12,7 +12,7 @@ import {
   Photo,
   QuickInfo,
   Title,
-} from '../components/movie-detail.styles';
+} from '../components/detail.styles';
 import { MovieCard } from '../components/movie-card.component';
 import { MoviesContext } from '../../../services/movies/movies.context';
 import { POSTERS } from '../../../api/constants';

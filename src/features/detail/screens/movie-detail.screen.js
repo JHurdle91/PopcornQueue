@@ -16,7 +16,7 @@ import {
   QuickInfo,
   StatusButton,
   Title,
-} from '../components/movie-detail.styles';
+} from '../components/detail.styles';
 import { MoviesContext } from '../../../services/movies/movies.context';
 import { POSTERS } from '../../../api/constants';
 import { PeopleContext } from '../../../services/people/people.context';
