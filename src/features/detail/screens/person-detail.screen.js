@@ -63,7 +63,7 @@ export const PersonDetailScreen = ({ navigation }) => {
       ) : (
         <ScrollView showsVerticalScrollIndicator={false}>
           <Backdrop
-            resizeMode="cover"
+            resizeMode="center"
             source={{ uri: `${POSTERS}${person.profilePath}` }}
           />
           <Title variant="title">{person.name}</Title>
