@@ -183,7 +183,7 @@ export const MovieDetailScreen = ({ navigation }) => {
               </Spacer>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {movie.crew.map((person) => {
-                  const key = `movieCredits-${movie.id}-${person.id}`;
+                  const key = `movieCredits-${movie.id}-${person.id}-${person.character}`;
                   if (person.job === 'Director') {
                     return (
                       <TouchableOpacity
@@ -200,7 +200,7 @@ export const MovieDetailScreen = ({ navigation }) => {
                   }
                 })}
                 {movie.cast.map((person) => {
-                  const key = `movieCredits-${movie.id}-${person.id}`;
+                  const key = `movieCredits-${movie.id}-${person.id}-${person.job}`;
                   return (
                     <TouchableOpacity
                       key={key}
