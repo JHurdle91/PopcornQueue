@@ -12,7 +12,7 @@ export const HomeScreen = ({ navigation }) => {
   return (
     <ScreenContainer>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Spacer position="bottom" size="medium">
+        <Spacer position="bottom" size="large">
           <PopularMoviesList navigation={navigation} />
           <Spacer position="top" size="medium">
             <MoviesInTheatresList navigation={navigation} />
