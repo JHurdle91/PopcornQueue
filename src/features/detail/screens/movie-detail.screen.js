@@ -17,11 +17,11 @@ import {
   StatusButton,
   Title,
 } from '../components/detail.styles';
-import { MovieCard } from '../components/movie-card.component';
+import { InfoCard } from '../components/info-card.component';
+import { MediaCard } from '../components/media-card.component';
 import { MoviesContext } from '../../../services/movies/movies.context';
 import { POSTERS } from '../../../api/constants';
 import { PeopleContext } from '../../../services/people/people.context';
-import { PersonCard } from '../components/person-card.component';
 import { ScreenContainer } from '../../../components/utility/screen-container.component';
 import { Spacer } from '../../../components/spacer/spacer.component';
 import { Text } from '../../../components/typography/text.component';
@@ -196,7 +196,7 @@ export const MovieDetailScreen = ({ navigation }) => {
                           componentCleanup();
                         }}
                       >
-                        <PersonCard person={person} />
+                        <InfoCard item={person} />
                       </TouchableOpacity>
                     );
                   }
@@ -212,7 +212,7 @@ export const MovieDetailScreen = ({ navigation }) => {
                         componentCleanup();
                       }}
                     >
-                      <PersonCard person={person} />
+                      <InfoCard item={person} />
                     </TouchableOpacity>
                   );
                 })}
@@ -235,7 +235,7 @@ export const MovieDetailScreen = ({ navigation }) => {
                         componentCleanup();
                       }}
                     >
-                      <MovieCard movie={item} />
+                      <MediaCard item={item} />
                     </TouchableOpacity>
                   );
                 })}

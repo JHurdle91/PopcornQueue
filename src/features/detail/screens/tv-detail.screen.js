@@ -17,9 +17,9 @@ import {
   StatusButton,
   Title,
 } from '../components/detail.styles';
+import { InfoCard } from '../components/info-card.component';
 import { POSTERS } from '../../../api/constants';
 import { PeopleContext } from '../../../services/people/people.context';
-import { PersonCard } from '../components/person-card.component';
 import { ScreenContainer } from '../../../components/utility/screen-container.component';
 import { Spacer } from '../../../components/spacer/spacer.component';
 import { Text } from '../../../components/typography/text.component';
@@ -193,7 +193,7 @@ export const TvDetailScreen = ({ navigation }) => {
                           componentCleanup();
                         }}
                       >
-                        <PersonCard person={person} />
+                        <InfoCard item={person} />
                       </TouchableOpacity>
                     );
                   }
@@ -209,7 +209,7 @@ export const TvDetailScreen = ({ navigation }) => {
                         componentCleanup();
                       }}
                     >
-                      <PersonCard person={person} />
+                      <InfoCard item={person} />
                     </TouchableOpacity>
                   );
                 })}
