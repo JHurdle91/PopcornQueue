@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { FlatList, ScrollView, TouchableOpacity } from 'react-native';
 
 import {
   BackButton,
@@ -26,6 +26,7 @@ export const PersonDetailScreen = ({ navigation }) => {
   const { person } = useContext(PeopleContext);
   const { changeMovieId } = useContext(MoviesContext);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     if (person && (person.cast || person.crew) && person.birthday) {
@@ -33,8 +34,31 @@ export const PersonDetailScreen = ({ navigation }) => {
     }
   }, [person]);
 
+  useEffect(() => {
+    if (isLoaded) {
+      setData([
+        ...person.crew.filter((item) => item.job === 'Director'),
+        ...person.cast,
+      ]);
+    }
+  }, [isLoaded, person]);
+
   const componentCleanup = () => {
     setIsLoaded(false);
+  };
+
+  const renderItem = ({ item }) => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          changeMovieId(item.id);
+          navigation.navigate('MovieDetail');
+          componentCleanup();
+        }}
+      >
+        <InfoCard item={item} />
+      </TouchableOpacity>
+    );
   };
 
   return (
@@ -91,40 +115,19 @@ export const PersonDetailScreen = ({ navigation }) => {
               <Spacer position="bottom" size="medium">
                 <Divider />
               </Spacer>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                {person.crew.map((item) => {
-                  const key = `personCredits-${person.id}-${item.id}-${item.job}`;
-                  if (item.job === 'Director') {
-                    return (
-                      <TouchableOpacity
-                        key={key}
-                        onPress={() => {
-                          changeMovieId(item.id);
-                          navigation.navigate('MovieDetail');
-                          componentCleanup();
-                        }}
-                      >
-                        <InfoCard item={item} />
-                      </TouchableOpacity>
-                    );
+              <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={data}
+                renderItem={renderItem}
+                keyExtractor={(item) => {
+                  if (item.job) {
+                    return `personCredits-${person.id}-${item.id}-${item.job}`;
+                  } else {
+                    return `personCredits-${person.id}-${item.id}-${item.character}`;
                   }
-                })}
-                {person.cast.map((item) => {
-                  const key = `personCredits-${person.id}-${item.id}-${item.character}`;
-                  return (
-                    <TouchableOpacity
-                      key={key}
-                      onPress={() => {
-                        changeMovieId(item.id);
-                        navigation.navigate('MovieDetail');
-                        componentCleanup();
-                      }}
-                    >
-                      <InfoCard item={item} />
-                    </TouchableOpacity>
-                  );
-                })}
-              </ScrollView>
+                }}
+              />
             </Spacer>
           </InfoContainer>
         </ScrollView>
