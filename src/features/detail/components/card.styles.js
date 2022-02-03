@@ -1,38 +1,14 @@
 import styled from 'styled-components/native';
+import { Card } from 'react-native-paper';
 
-import { Text } from '../../../components/typography/text.component';
+const width = 150;
 
-export const Container = styled.View`
-  width: 150px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+export const PaperCard = styled(Card)`
+  width: ${width}px;
   margin-right: ${(props) => props.theme.space[1]};
+  flex: 1;
 `;
 
-export const Card = styled.View`
-  width: 100%;
-`;
-
-export const Thumbnail = styled.Image`
-  border-radius: 10px;
-  height: 225px;
-  width: 100%;
-`;
-
-export const Header = styled.View`
-  height: 20px;
-  width: 100%;
-  justify-content: flex-end;
-`;
-
-export const Footer = styled.View`
-  width: 100%;
-  justify-content: flex-start;
-`;
-
-export const InfoText = styled(Text).attrs({
-  variant: 'caption',
-})`
-  text-align: center;
+export const Cover = styled(Card.Cover)`
+  height: ${(width * 3) / 2}px;
 `;

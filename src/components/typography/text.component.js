@@ -49,6 +49,12 @@ const label = (theme) => `
   font-weight: ${theme.fontWeights.medium};
 `;
 
+const cardTitle = (theme) => `
+  font-family: ${theme.fonts.info};
+  font-size: ${theme.fontSizes.body};
+  font-weight: ${theme.fontWeights.bold};
+`;
+
 const variants = {
   title,
   heading,
@@ -58,6 +64,7 @@ const variants = {
   caption,
   error,
   hint,
+  cardTitle,
 };
 
 export const Text = styled.Text`
