@@ -10,6 +10,7 @@ import {
   Oswald_400Regular,
   useFonts as useOswald,
 } from '@expo-google-fonts/oswald';
+import { Provider as PaperProvider } from 'react-native-paper';
 import {
   PlayfairDisplay_400Regular,
   useFonts as usePlayfair,
@@ -46,9 +47,11 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <AppNavigator />
-      </NavigationContainer>
+      <PaperProvider>
+        <NavigationContainer>
+          <AppNavigator />
+        </NavigationContainer>
+      </PaperProvider>
     </ThemeProvider>
   );
 }
