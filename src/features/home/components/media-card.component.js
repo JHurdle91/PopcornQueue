@@ -14,9 +14,9 @@ const Thumbnail = styled.Image`
   border-radius: 10px;
 `;
 
-export const MovieCard = (movie) => {
-  const m = movie.movie;
-  const source = `${POSTERS}${m.posterPath}`;
+export const MediaCard = (item) => {
+  const i = item.item;
+  const source = `${POSTERS}${i.posterPath}`;
   return (
     <Card>
       <Thumbnail resizeMode="cover" source={{ uri: source }} />
