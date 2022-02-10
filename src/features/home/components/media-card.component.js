@@ -19,7 +19,11 @@ export const MediaCard = (item) => {
   const source = `${POSTERS}${i.posterPath}`;
   return (
     <Card>
-      <Thumbnail resizeMode="cover" source={{ uri: source }} />
+      <Thumbnail
+        resizeMode="cover"
+        resizeMethod="resize"
+        source={{ uri: source }}
+      />
     </Card>
   );
 };

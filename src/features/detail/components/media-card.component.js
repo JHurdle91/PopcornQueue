@@ -8,7 +8,11 @@ export const MediaCard = (item) => {
   const source = `${POSTERS}${i.posterPath}`;
   return (
     <PaperCard>
-      <Cover resizeMode="cover" source={{ uri: source }} />
+      <Cover
+        resizeMode="cover"
+        resizeMethod="resize"
+        source={{ uri: source }}
+      />
     </PaperCard>
   );
 };

@@ -14,7 +14,11 @@ export const InfoCard = (item) => {
 
   return (
     <PaperCard>
-      <PaperCard.Cover resizeMode="cover" source={{ uri: source }} />
+      <PaperCard.Cover
+        resizeMode="cover"
+        resizeMethod="resize"
+        source={{ uri: source }}
+      />
       <PaperCard.Content>
         <Text variant="cardTitle">{title}</Text>
         <Text variant="hint">{i.job ? i.job : i.character}</Text>
