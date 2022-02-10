@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { TouchableOpacity } from 'react-native';
 
-import { Container, MediaFlatList } from './list.styles';
+import { Container, ListContainer, MediaFlatList } from './list.styles';
 import { MediaCard } from './media-card.component';
 import { MoviesContext } from '../../../services/movies/movies.context';
 import { Spacer } from '../../../components/spacer/spacer.component';
@@ -32,13 +32,16 @@ export const MediaList = ({ navigation, title, mediaType, data }) => {
       <Spacer position="left" size="medium">
         <Text variant="heading">{title}</Text>
       </Spacer>
-      <MediaFlatList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item) => `${title}-${item.id}`}
-      />
+      <ListContainer>
+        <MediaFlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={(item) => `${title}-${item.id}`}
+          initialNumToRender={5}
+        />
+      </ListContainer>
     </Container>
   );
 };
