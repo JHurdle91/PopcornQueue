@@ -3,43 +3,10 @@ import { TMDB_API_KEY } from '@env';
 
 import { MOVIE } from './constants';
 
-export const GetPopularMovies = async () => {
+export const GetMovieList = async (list, page) => {
   try {
     const response = await axios.get(
-      `${MOVIE}/popular?api_key=${TMDB_API_KEY}&language=en-US`
-    );
-    return response.data.results;
-  } catch (err) {
-    throw new Error(err);
-  }
-};
-
-export const GetMoviesInTheatres = async () => {
-  try {
-    const response = await axios.get(
-      `${MOVIE}/now_playing?api_key=${TMDB_API_KEY}&language=en-US`
-    );
-    return response.data.results;
-  } catch (err) {
-    throw new Error(err);
-  }
-};
-
-export const GetUpcomingMovies = async () => {
-  try {
-    const response = await axios.get(
-      `${MOVIE}/upcoming?api_key=${TMDB_API_KEY}&language=en-US`
-    );
-    return response.data.results;
-  } catch (err) {
-    throw new Error(err);
-  }
-};
-
-export const GetTopRatedMovies = async () => {
-  try {
-    const response = await axios.get(
-      `${MOVIE}/top_rated?api_key=${TMDB_API_KEY}&language=en-US`
+      `${MOVIE}/${list}?api_key=${TMDB_API_KEY}&language=en-US&page=${page}`
     );
     return response.data.results;
   } catch (err) {

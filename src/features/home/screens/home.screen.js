@@ -12,49 +12,56 @@ export const HomeScreen = ({ navigation }) => {
     useContext(MoviesContext);
   const { popularShows } = useContext(TvContext);
 
+  const Lists = [
+    {
+      title: 'Popular Movies',
+      mediaType: 'Movie',
+      data: popularMovies,
+      list: 'popular',
+    },
+    {
+      title: 'In Theatres',
+      mediaType: 'Movie',
+      data: moviesInTheatres,
+      list: 'now_playing',
+    },
+    {
+      title: 'Coming Soon',
+      mediaType: 'Movie',
+      data: upcomingMovies,
+      list: 'upcoming',
+    },
+    {
+      title: 'Top Rated Movies',
+      mediaType: 'Movie',
+      data: topRatedMovies,
+      list: 'top_rated',
+    },
+    {
+      title: 'Popular TV Shows',
+      mediaType: 'Tv',
+      data: popularShows,
+      list: 'popular',
+    },
+  ];
+
   return (
     <ScreenContainer>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Spacer position="bottom" size="large">
-          <MediaList
-            navigation={navigation}
-            title="Popular Movies"
-            mediaType="Movie"
-            data={popularMovies}
-          />
-          <Spacer position="top" size="medium">
-            <MediaList
-              navigation={navigation}
-              title="In Theatres"
-              mediaType="Movie"
-              data={moviesInTheatres}
-            />
-          </Spacer>
-          <Spacer position="top" size="medium">
-            <MediaList
-              navigation={navigation}
-              title="Coming Soon"
-              mediaType="Movie"
-              data={upcomingMovies}
-            />
-          </Spacer>
-          <Spacer position="top" size="medium">
-            <MediaList
-              navigation={navigation}
-              title="Top Rated Movies"
-              mediaType="Movie"
-              data={topRatedMovies}
-            />
-          </Spacer>
-          <Spacer position="top" size="medium">
-            <MediaList
-              navigation={navigation}
-              title="Popular TV Shows"
-              mediaType="Tv"
-              data={popularShows}
-            />
-          </Spacer>
-        </Spacer>
+        {Lists.map((item) => {
+          const { title, mediaType, data, list } = item;
+          return (
+            <Spacer position="bottom" size="medium">
+              <MediaList
+                navigation={navigation}
+                title={title}
+                mediaType={mediaType}
+                data={data}
+                list={list}
+              />
+            </Spacer>
+          );
+        })}
       </ScrollView>
     </ScreenContainer>
   );

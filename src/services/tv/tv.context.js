@@ -1,8 +1,10 @@
 import React, { createContext, useEffect, useState } from 'react';
 
-import { GetPopularShows } from '../../api/tv.api';
-import { GetShowCredits } from '../../api/tv.api';
-import { GetShowDetails } from '../../api/tv.api';
+import {
+  GetSeriesList,
+  GetShowCredits,
+  GetShowDetails,
+} from '../../api/tv.api';
 import { combineTvInfo } from './tv.service';
 import { tvTransform } from './tv.service';
 
@@ -10,29 +12,42 @@ export const TvContext = createContext();
 
 export const TvContextProvider = ({ children }) => {
   const [popularShows, setPopularShows] = useState([]);
+  const [popularShowsPages, setPopularShowsPages] = useState([]);
   const [showDetails, setShowDetails] = useState(null);
   const [showCredits, setShowCredits] = useState(null);
   const [show, setShow] = useState(null);
-  const [isLoadingPopular, setIsLoadingPopular] = useState(false);
   const [isLoadingDetails, setIsLoadingDetails] = useState(false);
   const [isLoadingCredits, setIsLoadingCredits] = useState(false);
   const [error, setError] = useState(null);
 
-  const retrievePopularShows = async () => {
-    setIsLoadingPopular(true);
-    setPopularShows([]);
+  const SeriesLists = {
+    popular: {
+      keyword: 'popular',
+      seriesList: popularShows,
+      setSeriesList: setPopularShows,
+      pages: popularShowsPages,
+      setPages: setPopularShowsPages,
+    },
+  };
+
+  const retrieveSeriesList = async (list = 'popular', page = 1) => {
+    const { keyword, seriesList, setSeriesList, pages, setPages } =
+      SeriesLists[list];
+    if (pages.includes(page)) {
+      return;
+    }
+    setPages([...pages, page]);
     try {
-      let ps = await GetPopularShows();
-      ps = tvTransform(ps);
-      setPopularShows(ps);
+      let result = await GetSeriesList(keyword, page);
+      result = tvTransform(result);
+      setSeriesList([...seriesList, ...result]);
     } catch (err) {
       setError(err);
     }
-    setIsLoadingPopular(false);
   };
 
   useEffect(() => {
-    retrievePopularShows();
+    retrieveSeriesList('popular');
   }, []);
 
   const retrieveShowDetails = async (id) => {
@@ -78,13 +93,13 @@ export const TvContextProvider = ({ children }) => {
     <TvContext.Provider
       value={{
         popularShows,
-        isLoadingPopular,
         isLoadingDetails,
         isLoadingCredits,
         error,
         showDetails,
         changeShowId: onChangeId,
         show,
+        retrieveSeriesList,
       }}
     >
       {children}

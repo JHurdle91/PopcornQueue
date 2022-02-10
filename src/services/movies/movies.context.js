@@ -1,12 +1,11 @@
 import React, { createContext, useEffect, useState } from 'react';
 
-import { GetMovieCredits } from '../../api/movies.api';
-import { GetMovieDetails } from '../../api/movies.api';
-import { GetMovieRecommendations } from '../../api/movies.api';
-import { GetMoviesInTheatres } from '../../api/movies.api';
-import { GetPopularMovies } from '../../api/movies.api';
-import { GetTopRatedMovies } from '../../api/movies.api';
-import { GetUpcomingMovies } from '../../api/movies.api';
+import {
+  GetMovieCredits,
+  GetMovieDetails,
+  GetMovieList,
+  GetMovieRecommendations,
+} from '../../api/movies.api';
 import { combineMovieInfo } from './movies.service';
 import { moviesTransform } from './movies.service';
 
@@ -14,80 +13,72 @@ export const MoviesContext = createContext();
 
 export const MoviesContextProvider = ({ children }) => {
   const [popularMovies, setPopularMovies] = useState([]);
+  const [popularMoviesPages, setPopularMoviesPages] = useState([]);
   const [moviesInTheatres, setMoviesInTheatres] = useState([]);
+  const [moviesInTheatresPages, setMoviesInTheatresPages] = useState([]);
   const [upcomingMovies, setUpcomingMovies] = useState([]);
+  const [upcomingMoviesPages, setUpcomingMoviesPages] = useState([]);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
+  const [topRatedMoviesPages, setTopRatedMoviesPages] = useState([]);
   const [movieDetails, setMovieDetails] = useState(null);
   const [movieRecommendations, setMovieRecommendations] = useState(null);
   const [movieCredits, setMovieCredits] = useState(null);
   const [movie, setMovie] = useState(null);
-  const [isLoadingPopular, setIsLoadingPopular] = useState(false);
-  const [isLoadingTheatres, setIsLoadingTheatres] = useState(false);
-  const [isLoadingUpcoming, setIsLoadingUpcoming] = useState(false);
-  const [isLoadingTop, setIsLoadingTop] = useState(false);
   const [isLoadingDetails, setIsLoadingDetails] = useState(false);
-  const [isLoadingRecommendations, setIsLoadingRecommendations] =
-    useState(false);
   const [isLoadingCredits, setIsLoadingCredits] = useState(false);
   const [error, setError] = useState(null);
 
-  const retrievePopularMovies = async () => {
-    setIsLoadingPopular(true);
-    setPopularMovies([]);
-    try {
-      let pm = await GetPopularMovies();
-      pm = moviesTransform(pm);
-      setPopularMovies(pm);
-    } catch (err) {
-      setError(err);
-    }
-    setIsLoadingPopular(false);
+  const MovieLists = {
+    popular: {
+      keyword: 'popular',
+      movies: popularMovies,
+      setMovies: setPopularMovies,
+      pages: popularMoviesPages,
+      setPages: setPopularMoviesPages,
+    },
+    inTheatres: {
+      keyword: 'now_playing',
+      movies: moviesInTheatres,
+      setMovies: setMoviesInTheatres,
+      pages: moviesInTheatresPages,
+      setPages: setMoviesInTheatresPages,
+    },
+    upcoming: {
+      keyword: 'upcoming',
+      movies: upcomingMovies,
+      setMovies: setUpcomingMovies,
+      pages: upcomingMoviesPages,
+      setPages: setUpcomingMoviesPages,
+    },
+    topRated: {
+      keyword: 'top_rated',
+      movies: topRatedMovies,
+      setMovies: setTopRatedMovies,
+      pages: topRatedMoviesPages,
+      setPages: setTopRatedMoviesPages,
+    },
   };
 
-  const retrieveMoviesInTheatres = async () => {
-    setIsLoadingTheatres(true);
-    setMoviesInTheatres([]);
+  const retrieveMovieList = async (list, page = 1) => {
+    const { keyword, movies, setMovies, pages, setPages } = MovieLists[list];
+    if (pages.includes(page)) {
+      return;
+    }
+    setPages([...pages, page]);
     try {
-      let mit = await GetMoviesInTheatres();
-      mit = moviesTransform(mit);
-      setMoviesInTheatres(mit);
+      let result = await GetMovieList(keyword, page);
+      result = moviesTransform(result);
+      setMovies([...movies, ...result]);
     } catch (err) {
       setError(err);
     }
-    setIsLoadingTheatres(false);
-  };
-
-  const retrieveUpcomingMovies = async () => {
-    setIsLoadingUpcoming(true);
-    setUpcomingMovies([]);
-    try {
-      let um = await GetUpcomingMovies();
-      um = moviesTransform(um);
-      setUpcomingMovies(um);
-    } catch (err) {
-      setError(err);
-    }
-    setIsLoadingUpcoming(false);
-  };
-
-  const retrieveTopRatedMovies = async () => {
-    setIsLoadingTop(true);
-    setTopRatedMovies([]);
-    try {
-      let trm = await GetTopRatedMovies();
-      trm = moviesTransform(trm);
-      setTopRatedMovies(trm);
-    } catch (err) {
-      setError(err);
-    }
-    setIsLoadingTop(false);
   };
 
   useEffect(() => {
-    retrievePopularMovies();
-    retrieveMoviesInTheatres();
-    retrieveUpcomingMovies();
-    retrieveTopRatedMovies();
+    retrieveMovieList('popular', 1);
+    retrieveMovieList('inTheatres', 1);
+    retrieveMovieList('upcoming', 1);
+    retrieveMovieList('topRated', 1);
   }, []);
 
   const retrieveMovieCredits = async (id) => {
@@ -116,7 +107,6 @@ export const MoviesContextProvider = ({ children }) => {
   };
 
   const retrieveMovieRecommendations = async (id) => {
-    setIsLoadingRecommendations(true);
     setMovieRecommendations(null);
     try {
       let mr = await GetMovieRecommendations(id);
@@ -125,7 +115,6 @@ export const MoviesContextProvider = ({ children }) => {
     } catch (err) {
       setError(err);
     }
-    setIsLoadingRecommendations(false);
   };
 
   const onChangeId = async (id) => {
@@ -148,9 +137,6 @@ export const MoviesContextProvider = ({ children }) => {
     <MoviesContext.Provider
       value={{
         popularMovies,
-        isLoadingPopular,
-        isLoadingDetails,
-        isLoadingCredits,
         error,
         movieDetails,
         changeMovieId: onChangeId,
@@ -159,6 +145,7 @@ export const MoviesContextProvider = ({ children }) => {
         moviesInTheatres,
         upcomingMovies,
         topRatedMovies,
+        retrieveMovieList,
       }}
     >
       {children}

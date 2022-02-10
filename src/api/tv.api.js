@@ -3,10 +3,10 @@ import { TMDB_API_KEY } from '@env';
 
 import { TV } from './constants';
 
-export const GetPopularShows = async () => {
+export const GetSeriesList = async (list, page) => {
   try {
     const response = await axios.get(
-      `${TV}/popular?api_key=${TMDB_API_KEY}&language=en-US`
+      `${TV}/${list}?api_key=${TMDB_API_KEY}&language=en-US&page=${page}`
     );
     return response.data.results;
   } catch (err) {

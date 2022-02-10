@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 
 import { Container, ListContainer, MediaFlatList } from './list.styles';
@@ -8,11 +8,14 @@ import { Spacer } from '../../../components/spacer/spacer.component';
 import { Text } from '../../../components/typography/text.component';
 import { TvContext } from '../../../services/tv/tv.context';
 
-export const MediaList = ({ navigation, title, mediaType, data }) => {
-  const { changeMovieId } = useContext(MoviesContext);
-  const { changeShowId } = useContext(TvContext);
+export const MediaList = ({ navigation, title, mediaType, data, list }) => {
+  const { changeMovieId, retrieveMovieList } = useContext(MoviesContext);
+  const { changeShowId, retrieveSeriesList } = useContext(TvContext);
+  const [page, setPage] = useState(1);
 
   const changeId = mediaType === 'Movie' ? changeMovieId : changeShowId;
+  const retrieve =
+    mediaType === 'Movie' ? retrieveMovieList : retrieveSeriesList;
 
   const renderItem = ({ item }) => {
     return (
@@ -25,6 +28,11 @@ export const MediaList = ({ navigation, title, mediaType, data }) => {
         <MediaCard item={item} />
       </TouchableOpacity>
     );
+  };
+
+  const getNextPage = () => {
+    setPage(page + 1);
+    retrieve(list, page);
   };
 
   return (
@@ -40,6 +48,7 @@ export const MediaList = ({ navigation, title, mediaType, data }) => {
           renderItem={renderItem}
           keyExtractor={(item) => `${title}-${item.id}`}
           initialNumToRender={5}
+          onEndReached={getNextPage}
         />
       </ListContainer>
     </Container>
