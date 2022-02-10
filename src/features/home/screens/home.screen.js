@@ -23,7 +23,7 @@ export const HomeScreen = ({ navigation }) => {
       title: 'In Theatres',
       mediaType: 'Movie',
       data: moviesInTheatres,
-      list: 'now_playing',
+      list: 'inTheatres',
     },
     {
       title: 'Coming Soon',
@@ -35,7 +35,7 @@ export const HomeScreen = ({ navigation }) => {
       title: 'Top Rated Movies',
       mediaType: 'Movie',
       data: topRatedMovies,
-      list: 'top_rated',
+      list: 'topRated',
     },
     {
       title: 'Popular TV Shows',
@@ -51,7 +51,7 @@ export const HomeScreen = ({ navigation }) => {
         {Lists.map((item) => {
           const { title, mediaType, data, list } = item;
           return (
-            <Spacer position="bottom" size="medium">
+            <Spacer position="bottom" size="medium" key={`${title}-list`}>
               <MediaList
                 navigation={navigation}
                 title={title}
