@@ -6,6 +6,7 @@ import { HomeNavigator } from './home.navigator';
 import { MoviesContextProvider } from '../../services/movies/movies.context';
 import { PeopleContextProvider } from '../../services/people/people.context';
 import { SafeArea } from '../../components/utility/safe-area.component';
+import { SettingsNavigator } from './settings.navigator';
 import { Text } from '../../components/typography/text.component';
 import { TvContextProvider } from '../../services/tv/tv.context';
 import { theme } from '../theme/index';
@@ -43,8 +44,6 @@ export const AppNavigator = () => {
   const QueueNavigator = () => <Text>My Queue</Text>;
 
   const FriendsNavigator = () => <Text>My Friends</Text>;
-
-  const SettingsNavigator = () => <Text>My Settings</Text>;
 
   return (
     <SafeArea>

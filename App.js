@@ -5,7 +5,6 @@ import {
   AbrilFatface_400Regular,
   useFonts as useAbril,
 } from '@expo-google-fonts/abril-fatface';
-import { NavigationContainer } from '@react-navigation/native';
 import {
   Oswald_400Regular,
   useFonts as useOswald,
@@ -21,7 +20,8 @@ import {
 } from '@expo-google-fonts/roboto';
 import { ThemeProvider } from 'styled-components/native';
 
-import { AppNavigator } from './src/infrastructure/navigation/app.navigator';
+import { AuthenticationContextProvider } from './src/services/authentication/authentication.context';
+import { Navigation } from './src/infrastructure/navigation';
 import { theme } from './src/infrastructure/theme';
 
 export default function App() {
@@ -47,11 +47,11 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <PaperProvider>
-        <NavigationContainer>
-          <AppNavigator />
-        </NavigationContainer>
-      </PaperProvider>
+      <AuthenticationContextProvider>
+        <PaperProvider>
+          <Navigation />
+        </PaperProvider>
+      </AuthenticationContextProvider>
     </ThemeProvider>
   );
 }
