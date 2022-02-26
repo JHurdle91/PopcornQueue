@@ -4,6 +4,7 @@ import {
   GetSeriesCredits,
   GetSeriesDetails,
   GetSeriesList,
+  GetSeriesRecommendations,
 } from '../../api/tv.api';
 import { combineTvInfo } from './tv.service';
 import { tvTransform } from './tv.service';
@@ -15,6 +16,7 @@ export const TvContextProvider = ({ children }) => {
   const [popularSeriesPages, setPopularSeriesPages] = useState([]);
   const [seriesDetails, setSeriesDetails] = useState(null);
   const [seriesCredits, setSeriesCredits] = useState(null);
+  const [seriesRecommendations, setSeriesRecommendations] = useState(null);
   const [series, setSeries] = useState(null);
   const [isLoadingDetails, setIsLoadingDetails] = useState(false);
   const [isLoadingCredits, setIsLoadingCredits] = useState(false);
@@ -75,12 +77,25 @@ export const TvContextProvider = ({ children }) => {
     setIsLoadingCredits(false);
   };
 
+  const retrieveSeriesRecommendations = async (id) => {
+    setSeriesRecommendations(null);
+    try {
+      let sr = await GetSeriesRecommendations(id);
+      sr = tvTransform(sr);
+      setSeriesRecommendations(sr);
+    } catch (err) {
+      setError(err);
+    }
+  };
+
   const onChangeId = async (id) => {
     setSeries(null);
     setSeriesDetails(null);
     setSeriesCredits(null);
+    setSeriesRecommendations(null);
     await retrieveSeriesDetails(id);
     await retrieveSeriesCredits(id);
+    await retrieveSeriesRecommendations(id);
   };
 
   useEffect(() => {
@@ -97,6 +112,7 @@ export const TvContextProvider = ({ children }) => {
         isLoadingCredits,
         error,
         seriesDetails,
+        seriesRecommendations,
         changeSeriesId: onChangeId,
         series,
         retrieveSeriesList,

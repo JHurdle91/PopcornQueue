@@ -18,6 +18,7 @@ import {
   Title,
 } from '../components/detail.styles';
 import { InfoCard } from '../components/info-card.component';
+import { MediaCard } from '../components/media-card.component';
 import { POSTERS } from '../../../api/constants';
 import { PeopleContext } from '../../../services/people/people.context';
 import { ScreenContainer } from '../../../components/utility/screen-container.component';
@@ -34,16 +35,17 @@ const mediaStatus = {
 };
 
 export const TvDetailScreen = ({ navigation }) => {
-  const { series } = useContext(TvContext);
+  const { series, seriesRecommendations, changeSeriesId } =
+    useContext(TvContext);
   const { changePersonId } = useContext(PeopleContext);
   const [interest, setInterest] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (series && series.cast && series.genres) {
+    if ((series && series.cast && series.genres, seriesRecommendations)) {
       setIsLoaded(true);
     }
-  }, [series]);
+  }, [series, seriesRecommendations]);
 
   const updateStatus = (status) => {
     if (interest === mediaStatus[status]) {
@@ -210,6 +212,29 @@ export const TvDetailScreen = ({ navigation }) => {
                       }}
                     >
                       <InfoCard item={person} />
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
+            </Spacer>
+            <Spacer position="top" size="medium">
+              <Spacer position="bottom" size="medium">
+                <Divider />
+              </Spacer>
+              <Text variant="heading">Recommendations</Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {seriesRecommendations.map((item) => {
+                  const key = `seriesRecs-${item.id}`;
+                  return (
+                    <TouchableOpacity
+                      key={key}
+                      onPress={() => {
+                        changeSeriesId(item.id);
+                        navigation.navigate('TvDetail');
+                        componentCleanup();
+                      }}
+                    >
+                      <MediaCard item={item} />
                     </TouchableOpacity>
                   );
                 })}

@@ -35,3 +35,14 @@ export const GetSeriesCredits = async (id) => {
     throw new Error(err);
   }
 };
+
+export const GetSeriesRecommendations = async (id) => {
+  try {
+    const response = await axios.get(
+      `${TV}/${id}/recommendations?api_key=${TMDB_API_KEY}&language=en-US`
+    );
+    return response.data.results;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
