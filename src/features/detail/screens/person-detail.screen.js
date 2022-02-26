@@ -20,11 +20,13 @@ import { PeopleContext } from '../../../services/people/people.context';
 import { ScreenContainer } from '../../../components/utility/screen-container.component';
 import { Spacer } from '../../../components/spacer/spacer.component';
 import { Text } from '../../../components/typography/text.component';
+import { TvContext } from '../../../services/tv/tv.context';
 import { theme } from '../../../infrastructure/theme';
 
 export const PersonDetailScreen = ({ navigation }) => {
   const { person } = useContext(PeopleContext);
   const { changeMovieId } = useContext(MoviesContext);
+  const { changeShowId } = useContext(TvContext);
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState(null);
 
@@ -51,8 +53,13 @@ export const PersonDetailScreen = ({ navigation }) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          changeMovieId(item.id);
-          navigation.navigate('MovieDetail');
+          if (item.mediaType === 'movie') {
+            changeMovieId(item.id);
+            navigation.navigate('MovieDetail');
+          } else {
+            changeShowId(item.id);
+            navigation.navigate('TvDetail');
+          }
           componentCleanup();
         }}
       >
