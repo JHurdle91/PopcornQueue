@@ -1,7 +1,9 @@
 {
   "expo": {
-    "name": "PopcornQueue",
+    "name": "Popcorn Queue",
     "slug": "PopcornQueue",
+    "privacy": "unlisted",
+    "description": "Keep track of movies and show that you want to watch!",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,9 +15,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
