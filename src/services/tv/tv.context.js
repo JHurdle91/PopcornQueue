@@ -1,9 +1,9 @@
 import React, { createContext, useEffect, useState } from 'react';
 
 import {
+  GetSeriesCredits,
+  GetSeriesDetails,
   GetSeriesList,
-  GetShowCredits,
-  GetShowDetails,
 } from '../../api/tv.api';
 import { combineTvInfo } from './tv.service';
 import { tvTransform } from './tv.service';
@@ -11,11 +11,11 @@ import { tvTransform } from './tv.service';
 export const TvContext = createContext();
 
 export const TvContextProvider = ({ children }) => {
-  const [popularShows, setPopularShows] = useState([]);
-  const [popularShowsPages, setPopularShowsPages] = useState([]);
-  const [showDetails, setShowDetails] = useState(null);
-  const [showCredits, setShowCredits] = useState(null);
-  const [show, setShow] = useState(null);
+  const [popularSeries, setPopularSeries] = useState([]);
+  const [popularSeriesPages, setPopularSeriesPages] = useState([]);
+  const [seriesDetails, setSeriesDetails] = useState(null);
+  const [seriesCredits, setSeriesCredits] = useState(null);
+  const [series, setSeries] = useState(null);
   const [isLoadingDetails, setIsLoadingDetails] = useState(false);
   const [isLoadingCredits, setIsLoadingCredits] = useState(false);
   const [error, setError] = useState(null);
@@ -23,10 +23,10 @@ export const TvContextProvider = ({ children }) => {
   const SeriesLists = {
     popular: {
       keyword: 'popular',
-      seriesList: popularShows,
-      setSeriesList: setPopularShows,
-      pages: popularShowsPages,
-      setPages: setPopularShowsPages,
+      seriesList: popularSeries,
+      setSeriesList: setPopularSeries,
+      pages: popularSeriesPages,
+      setPages: setPopularSeriesPages,
     },
   };
 
@@ -50,25 +50,25 @@ export const TvContextProvider = ({ children }) => {
     retrieveSeriesList('popular');
   }, []);
 
-  const retrieveShowDetails = async (id) => {
+  const retrieveSeriesDetails = async (id) => {
     setIsLoadingDetails(true);
-    setShowDetails(null);
+    setSeriesDetails(null);
     try {
-      let sd = await GetShowDetails(id);
+      let sd = await GetSeriesDetails(id);
       sd = tvTransform([sd])[0];
-      setShowDetails(sd);
+      setSeriesDetails(sd);
     } catch (err) {
       setError(err);
     }
     setIsLoadingDetails(false);
   };
 
-  const retrieveShowCredits = async (id) => {
+  const retrieveSeriesCredits = async (id) => {
     setIsLoadingCredits(true);
-    setShowCredits(null);
+    setSeriesCredits(null);
     try {
-      let sc = await GetShowCredits(id);
-      setShowCredits(sc);
+      let sc = await GetSeriesCredits(id);
+      setSeriesCredits(sc);
     } catch (err) {
       setError(err);
     }
@@ -76,29 +76,29 @@ export const TvContextProvider = ({ children }) => {
   };
 
   const onChangeId = async (id) => {
-    setShow(null);
-    setShowDetails(null);
-    setShowCredits(null);
-    await retrieveShowDetails(id);
-    await retrieveShowCredits(id);
+    setSeries(null);
+    setSeriesDetails(null);
+    setSeriesCredits(null);
+    await retrieveSeriesDetails(id);
+    await retrieveSeriesCredits(id);
   };
 
   useEffect(() => {
     if (!isLoadingDetails && !isLoadingCredits) {
-      setShow(combineTvInfo(showDetails, showCredits));
+      setSeries(combineTvInfo(seriesDetails, seriesCredits));
     }
-  }, [showDetails, showCredits, isLoadingDetails, isLoadingCredits]);
+  }, [seriesDetails, seriesCredits, isLoadingDetails, isLoadingCredits]);
 
   return (
     <TvContext.Provider
       value={{
-        popularShows,
+        popularSeries,
         isLoadingDetails,
         isLoadingCredits,
         error,
-        showDetails,
-        changeShowId: onChangeId,
-        show,
+        seriesDetails,
+        changeSeriesId: onChangeId,
+        series,
         retrieveSeriesList,
       }}
     >

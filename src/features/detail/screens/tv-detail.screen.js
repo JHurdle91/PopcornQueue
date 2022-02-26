@@ -34,16 +34,16 @@ const mediaStatus = {
 };
 
 export const TvDetailScreen = ({ navigation }) => {
-  const { show } = useContext(TvContext);
+  const { series } = useContext(TvContext);
   const { changePersonId } = useContext(PeopleContext);
   const [interest, setInterest] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (show && show.cast && show.genres) {
+    if (series && series.cast && series.genres) {
       setIsLoaded(true);
     }
-  }, [show]);
+  }, [series]);
 
   const updateStatus = (status) => {
     if (interest === mediaStatus[status]) {
@@ -82,12 +82,12 @@ export const TvDetailScreen = ({ navigation }) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Backdrop
             resizeMode="cover"
-            source={{ uri: `${POSTERS}${show.backdropPath}` }}
+            source={{ uri: `${POSTERS}${series.backdropPath}` }}
           />
           <Title variant="title">
-            {show.name} ({show.year})
+            {series.name} ({series.year})
           </Title>
-          <Title variant="caption">{show.tagline}</Title>
+          <Title variant="caption">{series.tagline}</Title>
           <Spacer position="top" size="small">
             <Options>
               <StatusButton onPress={() => updateStatus('queued')}>
@@ -157,8 +157,8 @@ export const TvDetailScreen = ({ navigation }) => {
           <InfoContainer>
             <Divider />
             <GenreContainer>
-              {show.genres.map((genre) => {
-                const key = `genre-${show.id}-${genre.id}`;
+              {series.genres.map((genre) => {
+                const key = `genre-${series.id}-${genre.id}`;
                 return (
                   <Text key={key} variant="heading">
                     {genre.name}
@@ -169,11 +169,11 @@ export const TvDetailScreen = ({ navigation }) => {
             <Divider />
             <Spacer position="top" size="medium">
               <QuickInfo>
-                <Text variant="label">TMDB Rating: {show.rating}</Text>
+                <Text variant="label">TMDB Rating: {series.rating}</Text>
               </QuickInfo>
             </Spacer>
             <Spacer position="top" size="small">
-              <OverviewText>{show.overview}</OverviewText>
+              <OverviewText>{series.overview}</OverviewText>
             </Spacer>
             <Spacer position="top" size="medium">
               <Spacer position="bottom" size="medium">
@@ -181,8 +181,8 @@ export const TvDetailScreen = ({ navigation }) => {
               </Spacer>
               <Text variant="heading">Cast</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                {show.crew.map((person) => {
-                  const key = `showCredits-${show.id}-${person.id}-${person.character}`;
+                {series.crew.map((person) => {
+                  const key = `seriesCredits-${series.id}-${person.id}-${person.character}`;
                   if (person.job === 'Director') {
                     return (
                       <TouchableOpacity
@@ -198,8 +198,8 @@ export const TvDetailScreen = ({ navigation }) => {
                     );
                   }
                 })}
-                {show.cast.map((person) => {
-                  const key = `showCredits-${show.id}-${person.id}-${person.job}`;
+                {series.cast.map((person) => {
+                  const key = `seriesCredits-${series.id}-${person.id}-${person.job}`;
                   return (
                     <TouchableOpacity
                       key={key}

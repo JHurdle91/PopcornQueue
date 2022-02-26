@@ -3,7 +3,7 @@
     "name": "Popcorn Queue",
     "slug": "PopcornQueue",
     "privacy": "unlisted",
-    "description": "Keep track of movies and show that you want to watch!",
+    "description": "Keep track of movies and shows that you want to watch!",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

@@ -10,7 +10,7 @@ import { TvContext } from '../../../services/tv/tv.context';
 export const HomeScreen = ({ navigation }) => {
   const { popularMovies, moviesInTheatres, upcomingMovies, topRatedMovies } =
     useContext(MoviesContext);
-  const { popularShows } = useContext(TvContext);
+  const { popularSeries } = useContext(TvContext);
 
   const Lists = [
     {
@@ -40,7 +40,7 @@ export const HomeScreen = ({ navigation }) => {
     {
       title: 'Popular TV Shows',
       mediaType: 'Tv',
-      data: popularShows,
+      data: popularSeries,
       list: 'popular',
     },
   ];

@@ -26,7 +26,7 @@ import { theme } from '../../../infrastructure/theme';
 export const PersonDetailScreen = ({ navigation }) => {
   const { person } = useContext(PeopleContext);
   const { changeMovieId } = useContext(MoviesContext);
-  const { changeShowId } = useContext(TvContext);
+  const { changeSeriesId } = useContext(TvContext);
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState(null);
 
@@ -57,7 +57,7 @@ export const PersonDetailScreen = ({ navigation }) => {
             changeMovieId(item.id);
             navigation.navigate('MovieDetail');
           } else {
-            changeShowId(item.id);
+            changeSeriesId(item.id);
             navigation.navigate('TvDetail');
           }
           componentCleanup();

@@ -9,11 +9,11 @@ const getRating = (rating) => {
 };
 
 export const tvTransform = (results = []) => {
-  const mappedResults = results.map((show) => {
+  const mappedResults = results.map((series) => {
     return {
-      ...show,
-      year: getYear(show.first_air_date),
-      rating: getRating(show.vote_average),
+      ...series,
+      year: getYear(series.first_air_date),
+      rating: getRating(series.vote_average),
     };
   });
 
@@ -21,9 +21,9 @@ export const tvTransform = (results = []) => {
 };
 
 export const combineTvInfo = (details, credits) => {
-  const show = {
+  const series = {
     ...details,
     ...credits,
   };
-  return camelize(show);
+  return camelize(series);
 };

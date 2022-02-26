@@ -14,7 +14,7 @@ export const GetSeriesList = async (list, page) => {
   }
 };
 
-export const GetShowDetails = async (id) => {
+export const GetSeriesDetails = async (id) => {
   try {
     const response = await axios.get(
       `${TV}/${id}?api_key=${TMDB_API_KEY}&language=en-US`
@@ -25,7 +25,7 @@ export const GetShowDetails = async (id) => {
   }
 };
 
-export const GetShowCredits = async (id) => {
+export const GetSeriesCredits = async (id) => {
   try {
     const response = await axios.get(
       `${TV}/${id}/credits?api_key=${TMDB_API_KEY}&language=en-US`

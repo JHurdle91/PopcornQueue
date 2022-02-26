@@ -10,10 +10,10 @@ import { TvContext } from '../../../services/tv/tv.context';
 
 export const MediaList = ({ navigation, title, mediaType, data, list }) => {
   const { changeMovieId, retrieveMovieList } = useContext(MoviesContext);
-  const { changeShowId, retrieveSeriesList } = useContext(TvContext);
+  const { changeSeriesId, retrieveSeriesList } = useContext(TvContext);
   const [page, setPage] = useState(1);
 
-  const changeId = mediaType === 'Movie' ? changeMovieId : changeShowId;
+  const changeId = mediaType === 'Movie' ? changeMovieId : changeSeriesId;
   const retrieve =
     mediaType === 'Movie' ? retrieveMovieList : retrieveSeriesList;
 
