@@ -19,6 +19,7 @@ import {
 } from '../components/detail.styles';
 import { InfoCard } from '../components/info-card.component';
 import { MediaCard } from '../components/media-card.component';
+import { MediaContext } from '../../../services/media/media.context';
 import { POSTERS } from '../../../api/constants';
 import { PeopleContext } from '../../../services/people/people.context';
 import { ScreenContainer } from '../../../components/utility/screen-container.component';
@@ -27,31 +28,39 @@ import { Text } from '../../../components/typography/text.component';
 import { TvContext } from '../../../services/tv/tv.context';
 import { theme } from '../../../infrastructure/theme';
 
-const mediaStatus = {
-  queued: 1,
-  good: 2,
-  bad: 3,
-  ignore: 4,
-};
-
 export const TvDetailScreen = ({ navigation }) => {
   const { series, seriesRecommendations, changeSeriesId } =
     useContext(TvContext);
+  const { media, STATUS, addToMedia, removeFromMedia } =
+    useContext(MediaContext);
   const { changePersonId } = useContext(PeopleContext);
   const [interest, setInterest] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if ((series && series.cast && series.genres, seriesRecommendations)) {
+    if (series && series.cast && series.genres && seriesRecommendations) {
       setIsLoaded(true);
     }
   }, [series, seriesRecommendations]);
 
+  useEffect(() => {
+    if (media && isLoaded) {
+      const currentMedia = media.filter(
+        (x) => x.item.type === 'tv' && x.item.id === series.id
+      );
+      if (currentMedia.length === 1) {
+        setInterest(currentMedia[0].status);
+      }
+    }
+  }, [media, isLoaded, series]);
+
   const updateStatus = (status) => {
-    if (interest === mediaStatus[status]) {
+    if (interest === STATUS[status]) {
       setInterest(null);
+      removeFromMedia({ type: 'tv', id: series.id }, STATUS[status]);
     } else {
-      setInterest(mediaStatus[status]);
+      setInterest(STATUS[status]);
+      addToMedia({ type: 'tv', id: series.id }, STATUS[status]);
     }
   };
 
@@ -94,12 +103,10 @@ export const TvDetailScreen = ({ navigation }) => {
             <Options>
               <StatusButton onPress={() => updateStatus('queued')}>
                 <Ionicons
-                  name={
-                    interest === mediaStatus.queued ? 'md-checkmark' : 'md-add'
-                  }
+                  name={interest === STATUS.queued ? 'md-checkmark' : 'md-add'}
                   size={48}
                   color={
-                    interest === mediaStatus.queued
+                    interest === STATUS.queued
                       ? theme.colors.brand.primary
                       : theme.colors.ui.secondary
                   }
@@ -109,13 +116,13 @@ export const TvDetailScreen = ({ navigation }) => {
               <StatusButton onPress={() => updateStatus('good')}>
                 <Ionicons
                   name={
-                    interest === mediaStatus.good
+                    interest === STATUS.good
                       ? 'md-thumbs-up'
                       : 'md-thumbs-up-outline'
                   }
                   size={48}
                   color={
-                    interest === mediaStatus.good
+                    interest === STATUS.good
                       ? theme.colors.brand.primary
                       : theme.colors.ui.secondary
                   }
@@ -125,13 +132,13 @@ export const TvDetailScreen = ({ navigation }) => {
               <StatusButton onPress={() => updateStatus('bad')}>
                 <Ionicons
                   name={
-                    interest === mediaStatus.bad
+                    interest === STATUS.bad
                       ? 'md-thumbs-down'
                       : 'md-thumbs-down-outline'
                   }
                   size={48}
                   color={
-                    interest === mediaStatus.bad
+                    interest === STATUS.bad
                       ? theme.colors.brand.primary
                       : theme.colors.ui.secondary
                   }
@@ -141,13 +148,13 @@ export const TvDetailScreen = ({ navigation }) => {
               <StatusButton onPress={() => updateStatus('ignore')}>
                 <Ionicons
                   name={
-                    interest === mediaStatus.ignore
+                    interest === STATUS.ignore
                       ? 'md-remove-circle'
                       : 'md-remove-circle-outline'
                   }
                   size={48}
                   color={
-                    interest === mediaStatus.ignore
+                    interest === STATUS.ignore
                       ? theme.colors.ui.error
                       : theme.colors.ui.secondary
                   }
