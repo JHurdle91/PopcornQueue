@@ -8,7 +8,7 @@ import { SettingsScreen } from '../../features/settings/screens/settings.screen'
 
 const SettingsStack = createStackNavigator();
 
-export const SettingsNavigator = ({ route, navigation }) => {
+export const SettingsNavigator = () => {
   return (
     <SettingsStack.Navigator
       headerMode="screen"
