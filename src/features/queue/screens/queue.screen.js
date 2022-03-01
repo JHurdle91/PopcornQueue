@@ -1,12 +1,11 @@
 import styled from 'styled-components/native';
 import React, { useContext } from 'react';
 import { List } from 'react-native-paper';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { MediaContext } from '../../../services/media/media.context';
 import { MoviesContext } from '../../../services/movies/movies.context';
 import { POSTERS } from '../../../api/constants';
-import { SafeArea } from '../../../components/utility/safe-area.component';
 import { Text } from '../../../components/typography/text.component';
 import { TvContext } from '../../../services/tv/tv.context';
 
@@ -14,10 +13,10 @@ const QueueItem = styled(List.Item)`
   padding: ${(props) => props.theme.space[3]};
 `;
 
-export const QueueScreen = ({ navigation }) => {
+export const QueueScreen = ({ navigation, typeFilter, statusFilter }) => {
   const { changeMovieId } = useContext(MoviesContext);
   const { changeSeriesId } = useContext(TvContext);
-  const { media, STATUS, clearMedia } = useContext(MediaContext);
+  const { media, clearMedia } = useContext(MediaContext);
 
   const NoListText = styled(Text).attrs({
     variant: 'hint',
@@ -31,7 +30,7 @@ export const QueueScreen = ({ navigation }) => {
   `;
 
   return (
-    <SafeArea>
+    <View style={{ flex: 1, marginTop: -8, marginBottom: -8 }}>
       <List.Section>
         {!media.length ? (
           <NoListText>Your list is emtpty...</NoListText>
@@ -40,7 +39,10 @@ export const QueueScreen = ({ navigation }) => {
             {media.map((item) => {
               const key = `QueueItem-${item.type}-${item.id}`;
               const source = `${POSTERS}${item.posterPath}`;
-              if (item.status === STATUS.queued) {
+              if (typeFilter && item.type !== typeFilter) {
+                return;
+              }
+              if (item.status === statusFilter) {
                 return (
                   <QueueItem
                     key={key}
@@ -77,6 +79,6 @@ export const QueueScreen = ({ navigation }) => {
           </ScrollView>
         )}
       </List.Section>
-    </SafeArea>
+    </View>
   );
 };
