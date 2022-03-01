@@ -45,7 +45,7 @@ export const HomeScreen = ({ navigation }) => {
       title: 'Top Rated TV Shows',
       mediaType: 'Tv',
       data: topRatedSeries,
-      list: 'popular',
+      list: 'topRated',
     },
   ];
 

@@ -58,8 +58,8 @@ export const TvContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    retrieveSeriesList('popular');
-    retrieveSeriesList('topRated');
+    retrieveSeriesList('popular', 1);
+    retrieveSeriesList('topRated', 1);
   }, []);
 
   const retrieveSeriesDetails = async (id) => {

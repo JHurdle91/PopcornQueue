@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 
 import { Container, ListContainer, MediaFlatList } from './list.styles';
@@ -32,8 +32,11 @@ export const MediaList = ({ navigation, title, mediaType, data, list }) => {
 
   const getNextPage = () => {
     setPage(page + 1);
-    retrieve(list, page);
   };
+
+  useEffect(() => {
+    retrieve(list, page);
+  }, [retrieve, list, page]);
 
   return (
     <Container>
