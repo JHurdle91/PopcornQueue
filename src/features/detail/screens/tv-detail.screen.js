@@ -46,21 +46,35 @@ export const TvDetailScreen = ({ navigation }) => {
   useEffect(() => {
     if (media && isLoaded) {
       const currentMedia = media.filter(
-        (x) => x.item.type === 'tv' && x.item.id === series.id
+        (x) => x.type === 'tv' && x.id === series.id
       );
       if (currentMedia.length === 1) {
         setInterest(currentMedia[0].status);
+      } else {
+        setInterest(null);
       }
     }
   }, [media, isLoaded, series]);
 
+  useEffect(() => {
+    navigation.addListener('blur', () => {
+      setIsLoaded(false);
+    });
+    navigation.addListener('focus', () => {
+      setIsLoaded(false);
+      if (series && series.cast && series.genres && seriesRecommendations) {
+        setIsLoaded(true);
+      }
+    });
+  }, [navigation, series, seriesRecommendations]);
+
   const updateStatus = (status) => {
     if (interest === STATUS[status]) {
       setInterest(null);
-      removeFromMedia({ type: 'tv', id: series.id }, STATUS[status]);
+      removeFromMedia(series, 'tv');
     } else {
       setInterest(STATUS[status]);
-      addToMedia({ type: 'tv', id: series.id }, STATUS[status]);
+      addToMedia(series, 'tv', STATUS[status]);
     }
   };
 

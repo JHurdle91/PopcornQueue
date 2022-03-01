@@ -46,21 +46,35 @@ export const MovieDetailScreen = ({ navigation }) => {
   useEffect(() => {
     if (media && isLoaded) {
       const currentMedia = media.filter(
-        (x) => x.item.type === 'movie' && x.item.id === movie.id
+        (x) => x.type === 'movie' && x.id === movie.id
       );
       if (currentMedia.length === 1) {
         setInterest(currentMedia[0].status);
+      } else {
+        setInterest(null);
       }
     }
   }, [media, isLoaded, movie]);
 
+  useEffect(() => {
+    navigation.addListener('blur', () => {
+      setIsLoaded(false);
+    });
+    navigation.addListener('focus', () => {
+      setIsLoaded(false);
+      if (movie && movie.cast && movie.genres && movieRecommendations) {
+        setIsLoaded(true);
+      }
+    });
+  }, [navigation, movie, movieRecommendations]);
+
   const updateStatus = (status) => {
     if (interest === STATUS[status]) {
       setInterest(null);
-      removeFromMedia({ type: 'movie', id: movie.id }, STATUS[status]);
+      removeFromMedia(movie, 'movie');
     } else {
       setInterest(STATUS[status]);
-      addToMedia({ type: 'movie', id: movie.id }, STATUS[status]);
+      addToMedia(movie, 'movie', STATUS[status]);
     }
   };
 

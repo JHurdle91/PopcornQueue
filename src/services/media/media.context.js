@@ -36,18 +36,20 @@ export const MediaContextProvider = ({ children }) => {
     }
   };
 
-  const add = (item, status) => {
-    const newMedia = media.filter(
-      (x) => x.item.type !== item.type || x.item.id !== item.id
-    );
-    setMedia([...newMedia, { item, status }]);
+  const add = (item, type, status) => {
+    const newMedia = media.filter((x) => x.type !== type || x.id !== item.id);
+    item.type = type;
+    item.status = status;
+    setMedia([...newMedia, item]);
   };
 
-  const remove = (item) => {
-    const newMedia = media.filter(
-      (x) => x.item.type !== item.type || x.item.id !== item.id
-    );
+  const remove = (item, type) => {
+    const newMedia = media.filter((x) => x.type !== type || x.id !== item.id);
     setMedia(newMedia);
+  };
+
+  const clear = () => {
+    setMedia([]);
   };
 
   useEffect(() => {
@@ -69,6 +71,7 @@ export const MediaContextProvider = ({ children }) => {
         STATUS,
         addToMedia: add,
         removeFromMedia: remove,
+        clearMedia: clear,
       }}
     >
       {children}

@@ -6,6 +6,7 @@ import { HomeNavigator } from './home.navigator';
 import { MediaContextProvider } from '../../services/media/media.context';
 import { MoviesContextProvider } from '../../services/movies/movies.context';
 import { PeopleContextProvider } from '../../services/people/people.context';
+import { QueueNavigator } from './queue.navigator';
 import { SafeArea } from '../../components/utility/safe-area.component';
 import { SettingsNavigator } from './settings.navigator';
 import { Text } from '../../components/typography/text.component';
@@ -42,8 +43,6 @@ export const AppNavigator = () => {
     };
   };
 
-  const QueueNavigator = () => <Text>My Queue</Text>;
-
   const FriendsNavigator = () => <Text>My Friends</Text>;
 
   return (
@@ -52,7 +51,10 @@ export const AppNavigator = () => {
         <MoviesContextProvider>
           <TvContextProvider>
             <PeopleContextProvider>
-              <Tab.Navigator screenOptions={createScreenOptions}>
+              <Tab.Navigator
+                detachInactiveScreens
+                screenOptions={createScreenOptions}
+              >
                 <Tab.Screen name="Home" component={HomeNavigator} />
                 <Tab.Screen name="Queue" component={QueueNavigator} />
                 <Tab.Screen name="Friends" component={FriendsNavigator} />

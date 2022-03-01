@@ -14,6 +14,7 @@ const HomeStack = createStackNavigator();
 export const HomeNavigator = () => {
   return (
     <HomeStack.Navigator
+      detachInactiveScreens
       screenOptions={{
         headerShown: false,
         gestureEnabled: false,
