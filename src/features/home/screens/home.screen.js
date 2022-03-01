@@ -1,9 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { ScrollView } from 'react-native';
 
 import { MediaList } from '../components/media-list.component';
 import { MoviesContext } from '../../../services/movies/movies.context';
 import { ScreenContainer } from '../../../components/utility/screen-container.component';
+import { Search } from '../components/search.component';
+import { SearchModal } from '../components/search-modal.component';
 import { Spacer } from '../../../components/spacer/spacer.component';
 import { TvContext } from '../../../services/tv/tv.context';
 
@@ -11,6 +13,8 @@ export const HomeScreen = ({ navigation }) => {
   const { popularMovies, upcomingMovies, topRatedMovies } =
     useContext(MoviesContext);
   const { popularSeries, topRatedSeries } = useContext(TvContext);
+  const [searchKeyword, setSearchKeyword] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const Lists = [
     {
@@ -45,8 +49,16 @@ export const HomeScreen = ({ navigation }) => {
     },
   ];
 
+  const handleKeywordChange = (keyword) => {
+    setSearchKeyword(keyword);
+    if (keyword && keyword.length) {
+      setIsModalVisible(true);
+    }
+  };
+
   return (
     <ScreenContainer>
+      <Search onKeywordChange={handleKeywordChange} />
       <ScrollView showsVerticalScrollIndicator={false}>
         {Lists.map((item) => {
           const { title, mediaType, data, list } = item;
@@ -63,6 +75,11 @@ export const HomeScreen = ({ navigation }) => {
           );
         })}
       </ScrollView>
+      <SearchModal
+        visible={isModalVisible}
+        searchKeyword={searchKeyword}
+        onHideModal={() => setIsModalVisible(false)}
+      />
     </ScreenContainer>
   );
 };
