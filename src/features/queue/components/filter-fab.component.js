@@ -30,7 +30,7 @@ export const FilterFab = ({ changeFilter }) => {
             },
             {
               icon: 'television-classic',
-              label: 'TV Series',
+              label: 'TV Shows',
               onPress: () => changeFilter('tv'),
             },
           ]}

@@ -8,9 +8,9 @@ import { Spacer } from '../../../components/spacer/spacer.component';
 import { TvContext } from '../../../services/tv/tv.context';
 
 export const HomeScreen = ({ navigation }) => {
-  const { popularMovies, moviesInTheatres, upcomingMovies, topRatedMovies } =
+  const { popularMovies, upcomingMovies, topRatedMovies } =
     useContext(MoviesContext);
-  const { popularSeries } = useContext(TvContext);
+  const { popularSeries, topRatedSeries } = useContext(TvContext);
 
   const Lists = [
     {
@@ -18,12 +18,6 @@ export const HomeScreen = ({ navigation }) => {
       mediaType: 'Movie',
       data: popularMovies,
       list: 'popular',
-    },
-    {
-      title: 'In Theatres',
-      mediaType: 'Movie',
-      data: moviesInTheatres,
-      list: 'inTheatres',
     },
     {
       title: 'Coming Soon',
@@ -41,6 +35,12 @@ export const HomeScreen = ({ navigation }) => {
       title: 'Popular TV Shows',
       mediaType: 'Tv',
       data: popularSeries,
+      list: 'popular',
+    },
+    {
+      title: 'Top Rated TV Shows',
+      mediaType: 'Tv',
+      data: topRatedSeries,
       list: 'popular',
     },
   ];

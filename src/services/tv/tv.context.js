@@ -14,6 +14,8 @@ export const TvContext = createContext();
 export const TvContextProvider = ({ children }) => {
   const [popularSeries, setPopularSeries] = useState([]);
   const [popularSeriesPages, setPopularSeriesPages] = useState([]);
+  const [topRatedSeries, setTopRatedSeries] = useState([]);
+  const [topRatedSeriesPages, setTopRatedSeriesPages] = useState([]);
   const [seriesDetails, setSeriesDetails] = useState(null);
   const [seriesCredits, setSeriesCredits] = useState(null);
   const [seriesRecommendations, setSeriesRecommendations] = useState(null);
@@ -29,6 +31,13 @@ export const TvContextProvider = ({ children }) => {
       setSeriesList: setPopularSeries,
       pages: popularSeriesPages,
       setPages: setPopularSeriesPages,
+    },
+    topRated: {
+      keyword: 'top_rated',
+      seriesList: topRatedSeries,
+      setSeriesList: setTopRatedSeries,
+      pages: topRatedSeriesPages,
+      setPages: setTopRatedSeriesPages,
     },
   };
 
@@ -50,6 +59,7 @@ export const TvContextProvider = ({ children }) => {
 
   useEffect(() => {
     retrieveSeriesList('popular');
+    retrieveSeriesList('topRated');
   }, []);
 
   const retrieveSeriesDetails = async (id) => {
@@ -108,6 +118,7 @@ export const TvContextProvider = ({ children }) => {
     <TvContext.Provider
       value={{
         popularSeries,
+        topRatedSeries,
         isLoadingDetails,
         isLoadingCredits,
         error,

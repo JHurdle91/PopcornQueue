@@ -76,7 +76,6 @@ export const MoviesContextProvider = ({ children }) => {
 
   useEffect(() => {
     retrieveMovieList('popular', 1);
-    retrieveMovieList('inTheatres', 1);
     retrieveMovieList('upcoming', 1);
     retrieveMovieList('topRated', 1);
   }, []);
