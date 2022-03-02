@@ -13,7 +13,6 @@ export const HomeScreen = ({ navigation }) => {
   const { popularMovies, upcomingMovies, topRatedMovies } =
     useContext(MoviesContext);
   const { popularSeries, topRatedSeries } = useContext(TvContext);
-  const [searchKeyword, setSearchKeyword] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const Lists = [
@@ -49,8 +48,7 @@ export const HomeScreen = ({ navigation }) => {
     },
   ];
 
-  const handleKeywordChange = (keyword) => {
-    setSearchKeyword(keyword);
+  const handleSearchSubmit = (keyword) => {
     if (keyword && keyword.length) {
       setIsModalVisible(true);
     }
@@ -58,7 +56,7 @@ export const HomeScreen = ({ navigation }) => {
 
   return (
     <ScreenContainer>
-      <Search onKeywordChange={handleKeywordChange} />
+      <Search onSearchSubmit={handleSearchSubmit} />
       <ScrollView showsVerticalScrollIndicator={false}>
         {Lists.map((item) => {
           const { title, mediaType, data, list } = item;
@@ -76,8 +74,8 @@ export const HomeScreen = ({ navigation }) => {
         })}
       </ScrollView>
       <SearchModal
+        navigation={navigation}
         visible={isModalVisible}
-        searchKeyword={searchKeyword}
         onHideModal={() => setIsModalVisible(false)}
       />
     </ScreenContainer>

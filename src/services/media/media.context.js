@@ -1,13 +1,18 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import camelize from 'camelize';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import { AuthenticationContext } from '../../services/authentication/authentication.context';
+import { GetMultiSearch } from '../../api/search.api';
 
 export const MediaContext = createContext();
 
 export const MediaContextProvider = ({ children }) => {
   const { user } = useContext(AuthenticationContext);
   const [media, setMedia] = useState([]);
+  const [searchResults, setSearchResults] = useState(null);
+  const [isLoadingSearchResults, setIsLoadingSearchResults] = useState(false);
+  const [error, setError] = useState(null);
 
   const STATUS = {
     queued: 1,
@@ -52,6 +57,21 @@ export const MediaContextProvider = ({ children }) => {
     setMedia([]);
   };
 
+  const retrieveSearchResults = async (keyword) => {
+    setIsLoadingSearchResults(true);
+    setSearchResults(null);
+    const encodedKeyword = encodeURIComponent(keyword);
+    try {
+      let sr = await GetMultiSearch(encodedKeyword);
+      //console.log({ encodedKeyword });
+      sr = camelize(sr);
+      setSearchResults(sr);
+    } catch (err) {
+      setError(err);
+    }
+    setIsLoadingSearchResults(false);
+  };
+
   useEffect(() => {
     if (user && user.uid) {
       loadMedia(user.uid);
@@ -72,6 +92,9 @@ export const MediaContextProvider = ({ children }) => {
         addToMedia: add,
         removeFromMedia: remove,
         clearMedia: clear,
+        searchResults,
+        isLoadingSearchResults,
+        search: retrieveSearchResults,
       }}
     >
       {children}

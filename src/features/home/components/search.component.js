@@ -8,17 +8,17 @@ const SearchContainer = styled.View`
   padding: ${(props) => props.theme.space[3]};
 `;
 
-export const Search = ({ onKeywordChange }) => {
-  const { keyword, search } = useContext(MediaContext);
-  const [searchKeyword, setSearchKeyword] = useState(keyword);
-
-  useEffect(() => {
-    setSearchKeyword(keyword);
-  }, [keyword]);
+export const Search = ({ onSearchSubmit }) => {
+  const { search } = useContext(MediaContext);
+  const [searchKeyword, setSearchKeyword] = useState(null);
 
   const handleChangeText = (text) => {
     setSearchKeyword(text);
-    onKeywordChange(text);
+  };
+
+  const handleSubmit = (keyword) => {
+    search(keyword);
+    onSearchSubmit(keyword);
   };
 
   return (
@@ -27,7 +27,7 @@ export const Search = ({ onKeywordChange }) => {
         placeholder="Search"
         value={searchKeyword}
         onSubmitEditing={() => {
-          search(searchKeyword);
+          handleSubmit(searchKeyword);
         }}
         onChangeText={(text) => {
           handleChangeText(text);
